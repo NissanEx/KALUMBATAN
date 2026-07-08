@@ -152,35 +152,37 @@
 
     <div class="bg-overlay"></div>
 
-    <!-- ============================================================ -->
-    <!-- HEADER (putih bersih)                                         -->
-    <!-- ============================================================ -->
-    <header id="main-header" class="sticky top-0 w-full bg-white shadow-md z-50 transition-all duration-300">
-        <div class="w-full flex justify-between items-center py-3 md:py-5 px-4 md:px-10 xl:px-16">
-            <a href="index.html" id="logo-text" class="text-xl md:text-3xl lg:text-4xl font-black tracking-tighter text-black">ExSan</a>
-            <nav class="hidden md:flex space-x-6 lg:space-x-8 items-center text-xs lg:text-sm font-medium text-gray-800">
-                <a href="index.html" class="hover:text-black transition flex items-center gap-1.5"><i class="fa-solid fa-house text-sm"></i> Home</a>
-                <a href="#" class="desktop-nav-link-active">APBDes</a>
-                <a href="#" class="hover:text-black transition">Struktur</a>
-                <a href="#" class="hover:text-black transition">Primer</a>
-                <a href="#" class="hover:text-black transition">Aset</a>
-                <a href="#" class="hover:text-black transition">Laporan</a>
-            </nav>
-            <button onclick="toggleMobileMenu()" class="md:hidden text-2xl text-black focus:outline-none z-50">
-                <i id="menu-icon" class="fa-solid fa-bars"></i>
-            </button>
-        </div>
-    </header>
+
+<header class="sticky top-0 w-full bg-white shadow-md z-50">
+    <div class="w-full flex justify-between items-center py-3 md:py-5 px-4 md:px-10 xl:px-16">
+        <a href="index.html" class="text-xl md:text-3xl lg:text-4xl font-black tracking-tighter text-black">ExSan</a>
+        <nav class="hidden md:flex space-x-6 lg:space-x-8 items-center text-xs lg:text-sm font-medium text-gray-700">
+            <a href="index.html" class="hover:text-black transition flex items-center gap-1.5">
+                <i class="fa-solid fa-house text-sm"></i> Home
+            </a>
+            <a href="#" class="desktop-nav-link-active">APBDes</a>
+            <a href="struktur.html" class="hover:text-black transition">Struktur</a>
+            <a href="primer.html" class="hover:text-black transition">Primer</a>
+            <a href="aset.html" class="hover:text-black transition">Aset</a>
+            <a href="#" class="hover:text-black transition">Laporan</a>
+        </nav>
+        <button onclick="toggleMobileMenu()" class="md:hidden text-2xl text-black focus:outline-none z-50">
+            <i id="menu-icon" class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+</header>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 bg-black/95 z-40 translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center space-y-6 text-xl font-medium text-white">
-        <a href="index.html" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider flex items-center gap-2"><i class="fa-solid fa-house text-lg"></i> Home</a>
-        <a href="#" onclick="toggleMobileMenu()" class="mobile-nav-link-active tracking-wider">APBDes</a>
-        <a href="#" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider">Struktur</a>
-        <a href="#" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider">Primer</a>
-        <a href="#" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider">Aset</a>
-        <a href="#" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider">Laporan</a>
-    </div>
+ <div id="mobile-menu" class="fixed inset-0 bg-black/95 z-40 translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center space-y-6 text-xl font-medium text-white">
+    <a href="index.html" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider flex items-center gap-2">
+        <i class="fa-solid fa-house text-lg"></i> Home
+    </a>
+    <a href="#" onclick="toggleMobileMenu()" class="mobile-nav-link-active tracking-wider">APBDes</a>
+    <a href="struktur.html" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider">Struktur</a>
+    <a href="primer.html" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider">Primer</a>
+    <a href="aset.html" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider">Aset</a>
+    <a href="#" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider">Laporan</a>
+</div>
 
     <!-- ============================================================ -->
     <!-- MAIN CONTENT                                                  -->
