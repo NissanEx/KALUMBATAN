@@ -23,13 +23,8 @@
                     fontFamily: { sans: ['Poppins', 'sans-serif'] },
                     colors: {
                         'brand-dark': '#1a1a1a',
-<<<<<<< HEAD
-                        'bubble-dark': '#242424',
-                        'star-yellow': '#fbbf24'
-=======
                         'star-yellow': '#f59e0b',
                         'review-bg': '#f8f9fa',
->>>>>>> 8a7ea0c (fuck)
                     },
                 },
             },
@@ -70,32 +65,6 @@
             padding-bottom: 4px;
         }
 
-<<<<<<< HEAD
-        .review-bubble {
-            position: relative;
-        }
-        .review-bubble::before {
-            content: '';
-            position: absolute;
-            left: -8px;
-            top: 16px;
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            border-right: 8px solid #242424;
-        }
-
-        .asset-card {
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-        .asset-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-        .asset-card.active {
-            border-color: #111827;
-=======
         /* Review card - minimal clean style */
         .review-card {
             border-bottom: 1px solid #f1f5f9;
@@ -135,7 +104,6 @@
         }
         .asset-card.active {
             background: #f1f5f9;
->>>>>>> 8a7ea0c (fuck)
         }
 
         /* Mobile Sidebar Bottom */
@@ -258,62 +226,12 @@
             <!-- ========================================== -->
             <section id="asset-detail-panel" class="fixed inset-0 z-50 bg-black/60 p-4 flex justify-center items-center lg:relative lg:inset-auto lg:bg-white lg:p-6 lg:z-auto lg:rounded-3xl lg:shadow-xl transition-opacity duration-300 opacity-0 pointer-events-none lg:opacity-100 lg:pointer-events-auto h-full overflow-hidden flex-col">
                 
-<<<<<<< HEAD
-                <div class="bg-white rounded-3xl p-5 md:p-6 w-full max-w-2xl max-h-[90vh] lg:max-h-full flex flex-col relative overflow-hidden transform scale-95 transition-transform duration-300 lg:scale-100 lg:p-0 lg:shadow-none h-full">
-=======
                 <div class="bg-white rounded-3xl p-5 md:p-6 w-full max-w-2xl max-h-[90vh] lg:max-h-full flex flex-col relative overflow-hidden transform scale-95 transition-transform duration-300 lg:scale-100 lg:p-0 lg:shadow-none lg:rounded-none lg:overflow-visible h-full">
->>>>>>> 8a7ea0c (fuck)
                     
                     <button onclick="closeDetailPanel()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 lg:hidden z-10">
                         <i class="fa-solid fa-xmark text-xl"></i>
                     </button>
 
-<<<<<<< HEAD
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6 lg:mb-8 pb-2 border-b lg:border-none">Informasi Aset</h2>
-
-                    <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 flex flex-col gap-6" id="detail-content-area">
-                        
-                        <div class="flex flex-col sm:flex-row gap-6">
-                            <div class="w-full sm:w-1/2 rounded-2xl overflow-hidden aspect-square shadow-sm">
-                                <img id="detail-image" src="" alt="Aset" class="w-full h-full object-cover" />
-                            </div>
-                            <div class="w-full sm:w-1/2 flex flex-col gap-3 text-sm">
-                                <div>
-                                    <span class="block font-bold text-gray-900 mb-0.5">Kategori</span>
-                                    <span id="detail-kategori" class="text-gray-600"></span>
-                                </div>
-                                <div>
-                                    <span class="block font-bold text-gray-900 mb-0.5">Nama</span>
-                                    <span id="detail-nama" class="text-gray-600"></span>
-                                </div>
-                                <div>
-                                    <span class="block font-bold text-gray-900 mb-0.5">Jumlah</span>
-                                    <span id="detail-jumlah" class="text-gray-600"></span>
-                                </div>
-                                <div class="mt-4">
-                                    <span class="block font-bold text-gray-900 mb-0.5">Fungsi</span>
-                                    <span id="detail-fungsi" class="text-gray-600"></span>
-                                </div>
-                                <div id="detail-stars" class="flex gap-1 text-star-yellow text-lg mt-auto pt-4"></div>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col gap-4 mt-4" id="detail-reviews"></div>
-
-                        <!-- Input Kritikan -->
-                        <div class="mt-4 mb-2 flex items-start gap-4">
-                            <div class="flex-1 bg-gray-300/40 rounded-2xl p-4 flex flex-col gap-2 relative border border-gray-200">
-                                <div class="flex justify-between items-center mb-1">
-                                    <span class="text-xs text-gray-500 font-medium ml-1">Tulis Kritikan</span>
-                                    <div class="flex gap-1 text-gray-400 text-sm cursor-pointer hover:text-star-yellow transition-colors">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                    </div>
-                                </div>
-                                <textarea rows="3" class="w-full bg-transparent outline-none text-sm text-gray-800 placeholder-gray-500 resize-none px-1" placeholder="Masukkan kritikan atau saran..."></textarea>
-                            </div>
-                            <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" alt="You" class="w-10 h-10 rounded-full object-cover shadow-sm mt-1 shrink-0" />
-                        </div>
-=======
                     <h2 class="text-xl font-bold text-gray-900 mb-5 pb-3 border-b border-gray-100 lg:border-none flex items-center gap-2">
                         <i class="fa-solid fa-layer-group text-gray-400 text-base"></i>
                         Informasi Aset
@@ -375,7 +293,6 @@
                             </div>
                         </div>
 
->>>>>>> 8a7ea0c (fuck)
                     </div>
                 </div>
             </section>
@@ -523,11 +440,7 @@
             }
 
             assetListContainer.innerHTML = filtered.map(item => `
-<<<<<<< HEAD
-                <div onclick="selectAsset(${item.id})" class="asset-card flex gap-4 items-center rounded-2xl p-3 bg-white ${currentAssetId === item.id ? 'active bg-gray-50' : 'hover:bg-gray-50'}">
-=======
                 <div onclick="selectAsset(${item.id})" class="asset-card flex gap-4 items-center rounded-2xl p-3 bg-white">
->>>>>>> 8a7ea0c (fuck)
                     <div class="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-xl overflow-hidden shadow-sm">
                         <img src="${item.image}" alt="${item.nama}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" loading="lazy" />
                     </div>
@@ -551,19 +464,11 @@
             currentAssetId = id;
             const asset = asetData.find(a => a.id === id);
             
-<<<<<<< HEAD
-            document.querySelectorAll('.asset-card').forEach(card => card.classList.remove('active', 'bg-gray-50'));
-            const cards = assetListContainer.children;
-            const index = (currentCategory === 'dashboard' ? asetData : asetData.filter(a=>a.kategoriId === currentCategory)).findIndex(a=>a.id === id);
-            if(cards[index]) {
-                cards[index].classList.add('active', 'bg-gray-50');
-=======
             document.querySelectorAll('.asset-card').forEach(card => card.classList.remove('active'));
             const cards = assetListContainer.children;
             const index = (currentCategory === 'dashboard' ? asetData : asetData.filter(a=>a.kategoriId === currentCategory)).findIndex(a=>a.id === id);
             if(cards[index]) {
                 cards[index].classList.add('active');
->>>>>>> 8a7ea0c (fuck)
             }
 
             dImage.src = asset.image;
@@ -574,27 +479,6 @@
             dStars.innerHTML = generateStarsHTML(asset.rating, 'text-lg');
 
             dReviews.innerHTML = asset.reviews.map(rev => `
-<<<<<<< HEAD
-                <div class="flex items-start gap-4 flex-row-reverse mb-2">
-                    <div class="flex flex-col items-center gap-1 w-14 shrink-0">
-                        <img src="${rev.avatar}" class="w-10 h-10 rounded-full bg-gray-200" alt="Avatar"/>
-                    </div>
-                    <div class="flex-1 bg-bubble-dark text-gray-200 p-4 rounded-xl rounded-tr-none relative text-xs flex flex-col gap-2">
-                        <div class="absolute right-[-8px] top-4 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[8px] border-l-bubble-dark"></div>
-                        <div class="flex justify-between items-start">
-                            <span class="leading-relaxed pr-8">${rev.text}</span>
-                            <div class="flex gap-0.5 text-star-yellow text-[10px] absolute right-4 top-4 bg-bubble-dark pl-2">
-                                ${generateStarsHTML(rev.rating, 'text-[10px]')}
-                            </div>
-                        </div>
-                        <div class="mt-1 border-t border-gray-700/50 pt-2 flex items-center justify-between">
-                            <div>
-                                <span class="font-bold text-white block">${rev.user}</span>
-                                <span class="text-[10px] text-gray-400">${rev.role}</span>
-                            </div>
-                            <button class="text-gray-500 hover:text-white transition"><i class="fa-regular fa-thumbs-up text-sm"></i></button>
-                        </div>
-=======
                 <div class="review-card flex gap-3 items-start">
                     <img src="${rev.avatar}" class="w-9 h-9 rounded-full object-cover shrink-0 mt-0.5 border border-gray-100" alt="${rev.user}" />
                     <div class="flex-1 min-w-0">
@@ -612,18 +496,14 @@
                             <i class="fa-regular fa-thumbs-up group-hover:text-gray-700"></i>
                             <span>Berguna</span>
                         </button>
->>>>>>> 8a7ea0c (fuck)
                     </div>
                 </div>
             `).join('');
 
-<<<<<<< HEAD
-=======
             // Update review count
             const reviewCountEl = document.getElementById('review-count');
             if (reviewCountEl) reviewCountEl.textContent = `${asset.reviews.length} ulasan`;
 
->>>>>>> 8a7ea0c (fuck)
             if (openModal && window.innerWidth < 1024) {
                 detailPanel.classList.remove('opacity-0', 'pointer-events-none');
                 detailPanel.firstElementChild.classList.remove('scale-95');
@@ -649,8 +529,6 @@
                     closeDetailPanel();
                 }
             });
-<<<<<<< HEAD
-=======
 
             // Star input interactivity
             const starInput = document.getElementById('star-input');
@@ -677,7 +555,6 @@
                     });
                 });
             }
->>>>>>> 8a7ea0c (fuck)
         };
 
         window.addEventListener('resize', () => {
