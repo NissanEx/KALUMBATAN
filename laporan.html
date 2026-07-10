@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>ExSan - Laporan Dashboard</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Chart.js for analytics visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js">
+    </script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        'brand-blue': '#3b82f6',
+                        'brand-green': '#00c770',
+                        'brand-orange': '#ffb03a',
+                        'brand-red': '#ea4335',
+                        'sidebar-active': '#f3f4f6',
+                        'tag-primer': '#3b82f6',
+                        'tag-struktur': '#854d0e',
+                        'tag-aset': '#dc2626'
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(45, 45, 45, 0.85);
+            z-index: -1;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Navigation indicator styles */
+        .desktop-nav-link-active {
+            color: black !important;
+            font-weight: 700 !important;
+            border-bottom: 2px solid black !important;
+            padding-bottom: 4px;
+        }
+        .mobile-nav-link-active {
+            color: white !important;
+            border-bottom: 2px solid white !important;
+            padding-bottom: 4px;
+        }
+
+        /* Smooth Tab Animations */
+        .dashboard-section {
+            display: none;
+        }
+        .dashboard-section.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== BOTTOM NAVBAR – MOBILE & DESKTOP ===== */
+        .sidebar-bottom-mobile {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-evenly;
+            align-items: stretch;
+            gap: 0.25rem;
+            padding: 0.5rem 0.25rem;
+            width: 100%;
+            overflow: hidden;
+        }
+        .sidebar-bottom-mobile .sidebar-btn {
+            flex: 1 1 0;
+            min-width: 0;
+            padding: 0.5rem 0.25rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.6rem;
+            line-height: 1.2;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            width: 100%;
+            flex-basis: 0;
+        }
+        .sidebar-bottom-mobile .sidebar-btn i {
+            font-size: 1.1rem;
+            margin-bottom: 0.1rem;
+        }
+        .sidebar-bottom-mobile .sidebar-btn span {
+            font-size: 0.55rem;
+            letter-spacing: 0.01em;
+        }
+
+        @media (min-width: 768px) {
+            .sidebar-bottom-mobile {
+                align-items: stretch;
+                justify-content: flex-start;
+                gap: 0.25rem;
+                padding: 0.5rem 0;
+            }
+            .sidebar-bottom-mobile .sidebar-btn {
+                flex-direction: row;
+                gap: 0.75rem;
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+                white-space: normal;
+                justify-content: flex-start;
+                text-align: left;
+                flex: none;
+                width: auto;
+            }
+            .sidebar-bottom-mobile .sidebar-btn i {
+                font-size: 1.25rem;
+                margin-bottom: 0;
+                width: 24px;
+                text-align: center;
+            }
+            .sidebar-bottom-mobile .sidebar-btn span {
+                font-size: 0.875rem;
+                text-align: left;
+            }
+        }
+
+        /* ===== MOBILE DISCOVERY DETAIL OVERLAY ===== */
+        #discovery-detail-container.mobile-active {
+            display: flex !important;
+            flex-direction: column;
+            position: fixed;
+            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 60;
+            background: white;
+            border-radius: 0 !important;
+            padding: 1.25rem !important;
+            margin: 0 !important;
+            overflow-y: auto;
+            min-height: 100vh !important;
+            box-shadow: none !important;
+        }
+        #discovery-detail-container.mobile-active .mobile-back-wrap {
+            display: flex !important;
+        }
+        .mobile-back-wrap {
+            display: none;
+        }
+
+        /* Discovery grid cards – tap feedback */
+        #reports-discovery-grid .report-card:active {
+            transform: scale(0.96);
+        }
+
+        /* Scrollable category pills */
+        .category-pills-scroll {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 0.5rem;
+            padding: 0.25rem 0.125rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .category-pills-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .category-pills-scroll .pill-btn {
+            flex: 0 0 auto;
+        }
+
+        /* Smooth transitions for mobile overlay */
+        #discovery-detail-container {
+            transition: all 0.25s ease;
+        }
+
+        @media (max-width: 1023px) {
+            #discovery-list-container.hidden-on-mobile {
+                display: none !important;
+            }
+            #discovery-detail-container.mobile-active {
+                border-radius: 0 !important;
+                padding: 1.25rem 1rem !important;
+            }
+            #discovery-detail-container:not(.mobile-active) {
+                display: none !important;
+            }
+            #discovery-list-container:not(.hidden-on-mobile) {
+                display: flex !important;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            #discovery-detail-container {
+                display: flex !important;
+                position: relative !important;
+                height: auto !important;
+                min-height: 600px !important;
+                max-height: none !important;
+                overflow-y: visible !important;
+                border-radius: 1rem !important;
+                padding: 1.25rem !important;
+                margin: 0 !important;
+                background: white !important;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            }
+            #discovery-list-container {
+                display: flex !important;
+            }
+            .mobile-back-wrap {
+                display: none !important;
+            }
+        }
+
+        /* Comments scroll */
+        .comments-scroll {
+            max-height: 160px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .comments-scroll::-webkit-scrollbar {
+            width: 3px;
+        }
+        .comments-scroll::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+
+        /* ===== FIXED CARD STYLES – NO OVERLAP, GENEROUS SPACING ===== */
+        .report-card {
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease;
+            background: #1a1a1a;
+            position: relative;
+            /* Use min-height and max-height to prevent overflow */
+            aspect-ratio: 3 / 4;
+            /* consistent ratio */
+            width: 100%;
+            /* fill grid cell */
+            display: flex;
+            flex-direction: column;
+        }
+        .report-card .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+        .report-card:hover .card-image {
+            transform: scale(1.05);
+        }
+        .report-card .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.1) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0.75rem;
+            /* ensure content fits within card bounds */
+            overflow: hidden;
+        }
+        .report-card .card-tag {
+            font-size: 0.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.25rem;
+            display: inline-block;
+            width: fit-content;
+            letter-spacing: 0.02em;
+            flex-shrink: 0;
+        }
+        .report-card .card-title {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1.2;
+            margin-top: 0.25rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-shrink: 1;
+        }
+        .report-card .card-desc {
+            font-size: 0.5rem;
+            color: #d1d5db;
+            line-height: 1.3;
+            margin-top: 0.125rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-shrink: 1;
+        }
+        .report-card .card-arrow {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 0.25rem;
+            flex-shrink: 0;
+        }
+        .report-card .card-arrow span {
+            width: 1rem;
+            height: 1px;
+            background: white;
+        }
+        .report-card .card-arrow i {
+            color: white;
+            font-size: 0.5rem;
+            transition: transform 0.2s ease;
+        }
+        .report-card:hover .card-arrow i {
+            transform: translateX(0.25rem);
+        }
+
+        /* Active state ring */
+        .report-card.active-card {
+            ring: 3px solid #3b82f6;
+            ring-offset: 2px;
+            transform: scale(0.97);
+        }
+
+        /* Responsive card adjustments – larger text on bigger screens */
+        @media (min-width: 640px) {
+            .report-card .card-title {
+                font-size: 0.8rem;
+            }
+            .report-card .card-desc {
+                font-size: 0.6rem;
+            }
+            .report-card .card-tag {
+                font-size: 0.6rem;
+                padding: 0.125rem 0.6rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .report-card .card-title {
+                font-size: 0.9rem;
+            }
+            .report-card .card-desc {
+                font-size: 0.65rem;
+            }
+            .report-card .card-overlay {
+                padding: 1rem;
+            }
+            .report-card {
+                aspect-ratio: 9 / 16;
+            }
+        }
+
+        /* ===== GRID WITH GENEROUS GAP AND CLEAR SEPARATION ===== */
+        #reports-discovery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            /* increased gap */
+            padding: 0.25rem 0;
+        }
+        @media (min-width: 1024px) {
+            #reports-discovery-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.25rem;
+            }
+        }
+        @media (max-width: 480px) {
+            #reports-discovery-grid {
+                gap: 0.75rem;
+                /* still enough space */
+            }
+        }
+
+        /* Ensure each card occupies its own cell without overflow */
+        #reports-discovery-grid .report-card {
+            margin: 0;
+            /* no extra margin that could cause overlap */
+            align-self: stretch;
+            /* make all cards same height within row */
+        }
+
+        /* Empty state */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 2rem 0.5rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 0.75rem;
+            color: white;
+        }
+        .empty-state i {
+            font-size: 2rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .empty-state p {
+            font-size: 0.7rem;
+            color: #9ca3af;
+        }
+
+        /* Isu Masyarakat card – interactive */
+        .isu-card {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .isu-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .isu-card:active {
+            transform: scale(0.96);
+        }
+
+        /* Additional fix: prevent any overflow from grid container */
+        #reports-discovery-grid {
+            overflow-y: auto;
+            max-height: 600px;
+            padding-right: 0.25rem;
+        }
+        /* On mobile, ensure the grid itself doesn't overflow */
+        @media (max-width: 640px) {
+            #reports-discovery-grid {
+                max-height: 500px;
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased text-gray-800 font-sans min-h-screen flex flex-col overflow-x-hidden">
+
+    <div class="bg-overlay"></div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="sticky top-0 w-full bg-white shadow-md z-50">
+        <div class="w-full flex justify-between items-center py-3 md:py-5 px-4 md:px-10 xl:px-16">
+            <a href="#" class="text-xl md:text-3xl lg:text-4xl font-black tracking-tighter text-black">ExSan</a>
+            <nav class="hidden md:flex space-x-6 lg:space-x-8 items-center text-xs lg:text-sm font-medium text-gray-700">
+                <a href="index.html"hover:text-black transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-house text-sm"></i> Home
+                </a>
+           <a href="apbdes.html" class="hover:text-black transition">APBDes</a>
+            <a href="struktur.html" class="hover:text-black transition">Struktur</a>
+            <a href="primer.html" class="hover:text-black transition">Primer</a>
+            <a href="aset.html" class="hover:text-black transition">Aset</a>
+                <a href="#" class="desktop-nav-link-active">Laporan</a>
+            </nav>
+            <button onclick="toggleMobileMenu()" class="md:hidden text-2xl text-black focus:outline-none z-50">
+                <i id="menu-icon" class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== MOBILE MENU OVERLAY ===== -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black/95 z-40 translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center space-y-6 text-xl font-medium text-white">
+        <a href="#" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-house text-lg"></i> Home
+        </a>
+        <a href="apbdes.html" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider">APBDes</a>
+        <a href="struktur.html" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider">Struktur</a>
+        <a href="primer.html" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider">Primer</a>
+        <a href="aset.html" onclick="toggleMobileMenu()" class="hover:text-gray-400 transition tracking-wider">Aset</a>
+        <a href="laporan.html" class="mobile-nav-link-active tracking-wider">Laporan</a>
+    </div>
+
+    <!-- ===== MAIN WRAPPER ===== -->
+    <div class="flex flex-1 w-full max-w-[1600px] mx-auto p-3 md:p-6 lg:p-8 pb-28 md:pb-6 gap-4 md:gap-6 flex-col md:flex-row mt-2 md:mt-4">
+
+        <!-- ===== SIDEBAR / BOTTOM NAV ===== -->
+        <aside class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-40 md:sticky md:top-24 md:w-64 md:bg-white md:rounded-2xl md:shadow-lg md:border-none shrink-0 flex flex-col md:p-4 md:h-fit">
+            <h3 class="hidden md:block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-4 px-3">Menu</h3>
+            <ul class="sidebar-bottom-mobile md:flex-col md:space-y-1">
+                <li class="flex-1 md:flex-none">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="sidebar-btn active md:bg-sidebar-active text-black font-semibold">
+                        <i class="fa-solid fa-house"></i> <span>Dashboard</span>
+                    </button>
+                </li>
+                <li class="flex-1 md:flex-none">
+                    <button onclick="switchTab('buat')" id="nav-buat" class="sidebar-btn text-gray-500 font-medium md:hover:bg-gray-50">
+                        <i class="fa-solid fa-pen-to-square"></i> <span>Buat Laporan</span>
+                    </button>
+                </li>
+                <li class="flex-1 md:flex-none">
+                    <button onclick="switchTab('temukan')" id="nav-temukan" class="sidebar-btn text-gray-500 font-medium md:hover:bg-gray-50">
+                        <i class="fa-solid fa-magnifying-glass"></i> <span>Temukan Laporan</span>
+                    </button>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- ===== CONTENT AREA ===== -->
+        <main class="flex-1 w-full min-w-0">
+
+            <!-- ========================================== -->
+            <!-- TAB 1: DASHBOARD                          -->
+            <!-- ========================================== -->
+            <section id="view-dashboard" class="dashboard-section active flex-col gap-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+                    <!-- Left: Mini Dashboard + Isu Masyarakat -->
+                    <div class="lg:col-span-5 flex flex-col gap-4">
+
+                        <!-- Mini Dashboard -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg flex flex-col justify-between h-[210px] relative overflow-hidden">
+                            <div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Dashboard</h3>
+                                <h2 class="text-xl font-extrabold mt-1 text-gray-900">Statistik Laporan</h2>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="bg-gray-100 p-4 rounded-xl">
+                                    <i class="fa-solid fa-users-line text-4xl text-gray-800"></i>
+                                </div>
+                                <div class="text-right">
+                                    <span class="block text-4xl font-black text-gray-950" id="total-reports-stat">3</span>
+                                    <span class="text-xs font-medium text-gray-500">Laporan Masuk</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Isu Masyarakat – interactive -->
+                        <div class="flex-1">
+                            <h3 class="text-white font-bold text-lg mb-3">Isu Masyarakat :</h3>
+                            <div class="grid grid-cols-3 gap-2" id="isu-masyarakat-container-1"></div>
+                            <div class="flex justify-center gap-1.5 mt-4">
+                                <div class="w-8 h-2 bg-white rounded-full"></div>
+                                <div class="w-2 h-2 bg-white/50 rounded-full"></div>
+                                <div class="w-2 h-2 bg-white/50 rounded-full"></div>
+                                <div class="w-2 h-2 bg-white/50 rounded-full"></div>
+                                <div class="w-2 h-2 bg-white/50 rounded-full"></div>
+                                <div class="w-2 h-2 bg-white/50 rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Chart -->
+                    <div class="lg:col-span-7 bg-white rounded-2xl p-6 shadow-lg flex flex-col justify-between min-h-[480px]">
+                        <div>
+                            <h3 class="font-bold text-xl text-gray-950">Bagan</h3>
+                            <p class="text-xs text-gray-500 mt-2 leading-relaxed text-justify max-w-xl">
+                                "Komponen dari kebahagiaan (warga) adalah: kesehatan yang baik, banyak teman, teman yang baik, kekayaan (materi yang cukup), anak-anak yang baik, usia tua yang bahagia, serta keutamaan fisik seperti kesehatan, keindahan, kekuatan, dan kemampuan atletik."
+                            </p>
+                        </div>
+                        <div class="flex-1 relative w-full h-[300px] mt-6">
+                            <canvas id="laporanBarChart"></canvas>
+                        </div>
+                        <div class="flex items-center gap-6 mt-4 text-xs font-semibold text-gray-700">
+                            <div class="flex items-center gap-2"><div class="w-3 h-3 bg-brand-blue rounded-sm"></div> Fisik</div>
+                            <div class="flex items-center gap-2"><div class="w-3 h-3 bg-brand-red rounded-sm"></div> Fasilitas Dasar</div>
+                            <div class="flex items-center gap-2"><div class="w-3 h-3 bg-brand-green rounded-sm"></div> Produktivitas</div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ========================================== -->
+            <!-- TAB 2: BUAT LAPORAN                       -->
+            <!-- ========================================== -->
+            <section id="view-buat" class="dashboard-section flex-col gap-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+                    <div class="lg:col-span-8 flex flex-col gap-4">
+                        <div class="bg-white rounded-2xl p-6 shadow-lg flex flex-col gap-6">
+
+                            <!-- Tag selector -->
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Pilih Tag Kategori</h4>
+                                <div class="flex gap-2">
+                                    <button type="button" onclick="selectFormTag('Primer')" id="form-tag-primer" class="px-5 py-1.5 rounded text-xs font-bold text-white bg-tag-primer transition-all transform hover:scale-105 shadow-md">Primer</button>
+                                    <button type="button" onclick="selectFormTag('Struktur')" id="form-tag-struktur" class="px-5 py-1.5 rounded text-xs font-bold text-gray-500 bg-gray-100 transition-all transform hover:scale-105">Struktur</button>
+                                    <button type="button" onclick="selectFormTag('Aset')" id="form-tag-aset" class="px-5 py-1.5 rounded text-xs font-bold text-gray-500 bg-gray-100 transition-all transform hover:scale-105">Aset</button>
+                                </div>
+                            </div>
+
+                            <!-- Form -->
+                            <form id="create-report-form" onsubmit="handleFormSubmit(event)" class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                                <div class="md:col-span-4 flex flex-col gap-3">
+                                    <div class="relative aspect-[3/4] bg-gray-900 border border-gray-200 overflow-hidden group">
+                                        <img id="form-img-preview" src="https://images.unsplash.com/photo-1541888081622-1d440f438183?w=400&q=80" alt="Preview" class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-3">
+                                            <span id="form-tag-indicator" class="text-[10px] font-bold text-white uppercase bg-tag-primer px-2 py-0.5 rounded">Tag: Primer</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <label class="text-[10px] font-bold text-gray-400 uppercase">Preset Gambar</label>
+                                        <div class="grid grid-cols-3 gap-1">
+                                            <button type="button" onclick="changeFormPresetImage('industrial')" class="h-10 border border-gray-300 overflow-hidden"><img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1541888081622-1d440f438183?w=100&q=80"></button>
+                                            <button type="button" onclick="changeFormPresetImage('warrior')" class="h-10 border border-gray-300 overflow-hidden"><img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1504198458649-3128b932f49e?w=100&q=80"></button>
+                                            <button type="button" onclick="changeFormPresetImage('tokyo')" class="h-10 border border-gray-300 overflow-hidden"><img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=100&q=80"></button>
+                                        </div>
+                                        <span class="text-[9px] text-gray-400 text-center mt-1">Klik untuk ganti gambar</span>
+                                    </div>
+                                </div>
+
+                                <div class="md:col-span-8 flex flex-col gap-3 justify-between">
+                                    <div class="flex flex-col gap-3">
+                                        <input type="text" id="form-title" placeholder="Judul" required class="w-full px-3 py-2 border border-gray-300 text-xs font-semibold focus:outline-none focus:border-black text-center placeholder-gray-400">
+                                        <textarea id="form-description" placeholder="Deskripsi" rows="3" required class="w-full px-3 py-2 border border-gray-300 text-xs text-gray-600 focus:outline-none focus:border-black text-center placeholder-gray-400 resize-none"></textarea>
+                                        <textarea id="form-content" placeholder="Isi detail laporan lengkap disini..." rows="4" required class="w-full px-3 py-2 border border-gray-300 text-xs text-gray-600 focus:outline-none focus:border-black placeholder-gray-400"></textarea>
+                                    </div>
+                                    <div class="flex items-center justify-between mt-2 pt-2 border-t border-gray-100">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-[9px] font-bold text-gray-400 uppercase">Tampilan Gambar Masuk</span>
+                                            <div class="w-8 h-8 rounded border border-gray-200 overflow-hidden">
+                                                <img id="tiny-thumbnail" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1541888081622-1d440f438183?w=50&q=80">
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="bg-black text-white px-8 py-2 rounded font-bold text-xs hover:bg-gray-800 transition shadow-md">Input</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                        <!-- Isu Masyarakat – interactive -->
+                        <div class="w-full mt-2">
+                            <h3 class="text-white font-bold text-lg mb-3">Isu Masyarakat :</h3>
+                            <div class="grid grid-cols-3 md:grid-cols-5 gap-2" id="isu-masyarakat-container-2"></div>
+                            <div class="flex justify-center gap-1.5 mt-4">
+                                <div class="w-8 h-2 bg-white rounded-full"></div>
+                                <div class="w-2 h-2 bg-white/50 rounded-full"></div>
+                                <div class="w-2 h-2 bg-white/50 rounded-full"></div>
+                                <div class="w-2 h-2 bg-white/50 rounded-full"></div>
+                                <div class="w-2 h-2 bg-white/50 rounded-full"></div>
+                                <div class="w-2 h-2 bg-white/50 rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Laporan Saya -->
+                    <div class="lg:col-span-4 bg-white rounded-2xl p-5 shadow-lg flex flex-col min-h-[500px]">
+                        <h3 class="font-extrabold text-lg text-gray-950 mb-4">Laporan Saya</h3>
+                        <div id="my-reports-list" class="flex-1 flex flex-col gap-3 overflow-y-auto max-h-[580px] pr-1"></div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ========================================== -->
+            <!-- TAB 3: TEMUKAN LAPORAN (MOBILE OPTIMIZED) -->
+            <!-- ========================================== -->
+            <section id="view-temukan" class="dashboard-section flex-col gap-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+                    <!-- LEFT: Search + Filters + Grid -->
+                    <div id="discovery-list-container" class="lg:col-span-7 flex flex-col gap-4 w-full">
+
+                        <!-- Search -->
+                        <div class="relative w-full">
+                            <input type="text" id="report-search-input" oninput="filterReports()" placeholder="Cari berdasarkan Nama atau Deskripsi..." class="w-full py-2.5 pl-4 pr-10 rounded-xl bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-black text-xs font-semibold text-gray-800">
+                            <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                        </div>
+
+                        <!-- Category Filters – scrollable on mobile -->
+                        <div class="bg-white/95 backdrop-blur-md p-3 rounded-xl shadow-md border border-gray-100">
+                            <div class="category-pills-scroll">
+                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mr-2 shrink-0 self-center">Filter:</span>
+
+                                <button type="button" onclick="selectCategoryFilter('All')" id="filter-pill-all" class="pill-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-black text-white shadow shrink-0">
+                                    Semua
+                                </button>
+
+                                <button type="button" onclick="selectCategoryFilter('Primer')" id="filter-pill-primer" class="pill-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-gray-100 text-brand-blue hover:bg-brand-blue/10 border border-transparent shrink-0">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-tag-primer mr-1.5"></span> Primer
+                                </button>
+
+                                <button type="button" onclick="selectCategoryFilter('Struktur')" id="filter-pill-struktur" class="pill-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-gray-100 text-yellow-800 hover:bg-yellow-600/10 border border-transparent shrink-0">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-tag-struktur mr-1.5"></span> Struktur
+                                </button>
+
+                                <button type="button" onclick="selectCategoryFilter('Aset')" id="filter-pill-aset" class="pill-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-gray-100 text-red-600 hover:bg-red-600/10 border border-transparent shrink-0">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-tag-aset mr-1.5"></span> Aset
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Grid – with fixed spacing and no overlap -->
+                        <div id="reports-discovery-grid" class="overflow-y-auto max-h-[600px] pr-1">
+                            <!-- populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Detail Panel (mobile overlay) -->
+                    <div id="discovery-detail-container" class="lg:col-span-5 bg-white rounded-2xl p-5 shadow-lg flex-col justify-between min-h-[600px] hidden lg:flex w-full">
+
+                        <!-- Back button (mobile only) -->
+                        <div class="mobile-back-wrap flex items-center mb-3 lg:hidden">
+                            <button onclick="closeMobileDetail()" class="text-gray-800 font-bold text-xs flex items-center gap-2 bg-gray-100 hover:bg-gray-200 px-4 py-2.5 rounded-xl transition shadow-sm border border-gray-200 w-full justify-center">
+                                <i class="fa-solid fa-arrow-left text-sm"></i> Kembali ke Daftar
+                            </button>
+                        </div>
+
+                        <!-- Header -->
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-extrabold text-base text-gray-950">Informasi Laporan</h3>
+                            <div class="flex items-center gap-3 text-gray-500">
+                                <button class="hover:text-black transition" title="Dengarkan"><i class="fa-solid fa-headphones-simple"></i></button>
+                                <button class="hover:text-black transition" title="Bagikan Tautan" onclick="copyShareLink()"><i class="fa-solid fa-link"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Detail Content -->
+                        <div id="active-detail-container" class="space-y-4 flex-1 overflow-y-auto pr-1">
+                            <!-- populated by JS -->
+                        </div>
+
+                        <!-- Comment -->
+                        <div class="mt-4 pt-3 border-t border-gray-100">
+                            <form onsubmit="handleCommentSubmit(event)" class="relative">
+                                <input type="text" id="comment-input" placeholder="Tulis Kritikan / Tanggapan..." required class="w-full bg-gray-900 text-white rounded-xl py-2 px-4 text-xs focus:outline-none focus:ring-1 focus:ring-brand-blue placeholder-gray-400">
+                                <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition">
+                                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT                                -->
+    <!-- ========================================== -->
+    <script>
+        const PRESET_IMAGES = {
+            industrial: 'https://images.unsplash.com/photo-1541888081622-1d440f438183?w=800&q=80',
+            warrior: 'https://images.unsplash.com/photo-1504198458649-3128b932f49e?w=800&q=80',
+            tokyo: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=800&q=80'
+        };
+
+        let currentFormTag = 'Primer';
+        let currentFormImageUrl = PRESET_IMAGES.industrial;
+        let selectedCategoryFilter = 'All';
+        let activeSelectedReportId = 1;
+
+        let reportsDb = [{
+            id: 1,
+            title: "Democracy Is Dead",
+            tag: "Primer",
+            image: PRESET_IMAGES.warrior,
+            description: "Komponen dari kebahagiaan (warga) adalah: kesehatan yang baik, banyak teman, teman yang baik, kekayaan (materi yang cukup), anak-anak yang baik, usia tua yang bahagia, serta keutamaan fisik seperti kesehatan, keindahan, kekuatan, dan kemampuan atletik.",
+            content: "Pembangunan berkelanjutan harus berpusat pada pemenuhan layanan mendasar bagi warga secara setara. Dalam rancangan anggaran desa, kita perlu lebih memperhatikan ketimpangan ini agar kebahagiaan seluruh entitas warga dapat tercapai secara maksimal.",
+            likes: 84,
+            comments: [
+                { author: "Sandy", role: "Mahasiswa", text: "Aspek fisik di kelurahan mandiri masih sangat kurang." },
+                { author: "Sandy", role: "Mahasiswa", text: "Sangat membantu informasinya!" }
+            ]
+        }, {
+            id: 2,
+            title: "Krisis Air Irigasi Sawah Dusun 3",
+            tag: "Struktur",
+            image: PRESET_IMAGES.industrial,
+            description: "Pintu bendungan sekunder tersumbat tumpukan lumpur sisa hujan banjir bandang bulan lalu, mengancam produktivitas panen.",
+            content: "Hampir 15 hektar sawah padi di bagian selatan terancam mengalami gagal tumbuh jika aliran irigasi tidak segera dibersihkan dari endapan sedimen lumpur.",
+            likes: 42,
+            comments: [
+                { author: "Budi", role: "Petani", text: "Mohon segera ditindaklanjuti oleh dinas terkait sebelum masa tanam berakhir." }
+            ]
+        }, {
+            id: 3,
+            title: "Infrastruktur Penerangan Jalan Hilang",
+            tag: "Aset",
+            image: PRESET_IMAGES.tokyo,
+            description: "Beberapa lampu panel surya di sepanjang jalan pintas lingkar utara mengalami pencurian baterai aki.",
+            content: "Keadaan gelap gulita memicu rawannya kecelakaan malam hari dan mengganggu kenyamanan angkutan logistik desa yang lewat.",
+            likes: 19,
+            comments: [
+                { author: "Randi", role: "Warga", text: "Sangat berbahaya jika malam hari sepi." }
+            ]
+        }];
+
+        // ===== NAVIGATION =====
+        function toggleMobileMenu() {
+            var menu = document.getElementById('mobile-menu');
+            var icon = document.getElementById('menu-icon');
+            menu.classList.toggle('translate-x-full');
+            if (menu.classList.contains('translate-x-full')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.dashboard-section').forEach(function(s) {
+                s.classList.remove('active');
+            });
+            document.getElementById('view-' + tabId).classList.add('active');
+
+            document.querySelectorAll('.sidebar-btn').forEach(function(btn) {
+                btn.classList.remove('md:bg-sidebar-active', 'text-black', 'font-semibold');
+                btn.classList.add('text-gray-500', 'font-medium');
+            });
+
+            var active = document.getElementById('nav-' + tabId);
+            if (active) {
+                active.classList.remove('text-gray-500', 'font-medium');
+                active.classList.add('md:bg-sidebar-active', 'text-black', 'font-semibold');
+            }
+
+            if (tabId === 'temukan') {
+                closeMobileDetail();
+            }
+
+            renderAllViews();
+        }
+
+        // ===== ISU MASYARAKAT – INTERACTIVE, BERDASARKAN LAPORAN =====
+        function renderIsuMasyarakat() {
+            const items = reportsDb.slice(0, 3);
+            while (items.length < 3) {
+                items.push(reportsDb[0]);
+            }
+
+            const renderToContainer = (containerId) => {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                container.innerHTML = '';
+                items.forEach((item) => {
+                    const tagColor = (item.tag === 'Primer') ? 'bg-tag-primer' :
+                        (item.tag === 'Struktur') ? 'bg-tag-struktur' : 'bg-tag-aset';
+                    container.innerHTML += `
+                        <div class="isu-card relative group overflow-hidden aspect-[9/16] bg-gray-900 rounded-lg" onclick="navigateToReport(${item.id})">
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 p-3 w-full">
+                                <span class="text-[8px] font-bold text-white uppercase px-1.5 py-0.5 rounded ${tagColor}">${item.tag}</span>
+                                <h4 class="text-white font-extrabold text-[11px] tracking-wide leading-tight mt-1">${item.title}</h4>
+                                <p class="text-gray-300 text-[8px] mt-0.5 leading-tight line-clamp-2">${item.description}</p>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <span class="w-8 h-[1px] bg-white"></span>
+                                    <i class="fa-solid fa-arrow-right text-white text-[8px] transition-transform group-hover:translate-x-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            };
+
+            renderToContainer('isu-masyarakat-container-1');
+            renderToContainer('isu-masyarakat-container-2');
+        }
+
+        function navigateToReport(id) {
+            selectActiveDetailReport(id);
+            switchTab('temukan');
+        }
+
+        // ===== FORM =====
+        function selectFormTag(tag) {
+            currentFormTag = tag;
+            const tags = ['Primer', 'Struktur', 'Aset'];
+            tags.forEach(t => {
+                const btn = document.getElementById('form-tag-' + t.toLowerCase());
+                btn.className = "px-5 py-1.5 rounded text-xs font-bold text-gray-500 bg-gray-100 transition-all transform hover:scale-105";
+            });
+            const activeBtn = document.getElementById('form-tag-' + tag.toLowerCase());
+            let activeColorClass = 'bg-tag-primer';
+            if (tag === 'Struktur') activeColorClass = 'bg-tag-struktur';
+            if (tag === 'Aset') activeColorClass = 'bg-tag-aset';
+            activeBtn.className =
+                `px-5 py-1.5 rounded text-xs font-bold text-white ${activeColorClass} transition-all transform hover:scale-105 shadow-md`;
+            const indicator = document.getElementById('form-tag-indicator');
+            indicator.textContent = 'Tag: ' + tag;
+            indicator.className = `text-[10px] font-bold text-white uppercase ${activeColorClass} px-2 py-0.5 rounded`;
+        }
+
+        function changeFormPresetImage(key) {
+            if (PRESET_IMAGES[key]) {
+                currentFormImageUrl = PRESET_IMAGES[key];
+                document.getElementById('form-img-preview').src = currentFormImageUrl;
+                document.getElementById('tiny-thumbnail').src = currentFormImageUrl;
+            }
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const title = document.getElementById('form-title').value;
+            const description = document.getElementById('form-description').value;
+            const content = document.getElementById('form-content').value;
+
+            const newReport = {
+                id: reportsDb.length + 1,
+                title: title,
+                tag: currentFormTag,
+                image: currentFormImageUrl,
+                description: description,
+                content: content,
+                likes: 1,
+                comments: []
+            };
+            reportsDb.unshift(newReport);
+            document.getElementById('create-report-form').reset();
+            currentFormImageUrl = PRESET_IMAGES.industrial;
+            document.getElementById('form-img-preview').src = currentFormImageUrl;
+            document.getElementById('tiny-thumbnail').src = currentFormImageUrl;
+            selectFormTag('Primer');
+            renderAllViews();
+            showToast("Laporan Berhasil Dibuat!");
+            switchTab('temukan');
+            selectActiveDetailReport(newReport.id);
+        }
+
+        // ===== MY REPORTS =====
+        function renderMyReportsList() {
+            const listContainer = document.getElementById('my-reports-list');
+            if (!listContainer) return;
+            listContainer.innerHTML = '';
+            reportsDb.forEach(item => {
+                let tagColorClass = 'bg-tag-primer';
+                if (item.tag === 'Struktur') tagColorClass = 'bg-tag-struktur';
+                if (item.tag === 'Aset') tagColorClass = 'bg-tag-aset';
+                listContainer.innerHTML += `
+                    <div class="bg-gray-900 text-white p-4 rounded-xl flex items-center justify-between gap-3 shadow-md border border-gray-800">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-12 rounded overflow-hidden shrink-0 border border-gray-800">
+                                <img class="w-full h-full object-cover" src="${item.image}">
+                            </div>
+                            <div>
+                                <span class="text-[9px] font-bold text-white uppercase px-2 py-0.5 rounded ${tagColorClass}">${item.tag}</span>
+                                <h4 class="font-bold text-xs mt-1 text-gray-100 line-clamp-1 max-w-[140px]">${item.title}</h4>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-400">
+                            <button onclick="navigateToReport(${item.id})" class="hover:text-white transition" title="Lihat Laporan"><i class="fa-solid fa-eye text-xs"></i></button>
+                            <button onclick="deleteReport(${item.id})" class="hover:text-red-400 transition" title="Hapus Laporan"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function deleteReport(id) {
+            reportsDb = reportsDb.filter(item => item.id !== id);
+            if (activeSelectedReportId === id && reportsDb.length > 0) {
+                activeSelectedReportId = reportsDb[0].id;
+            }
+            renderAllViews();
+            showToast("Laporan Berhasil Dihapus");
+        }
+
+        // ===== FILTERS =====
+        function selectCategoryFilter(category) {
+            selectedCategoryFilter = category;
+            const btnAll = document.getElementById('filter-pill-all');
+            const btnPrimer = document.getElementById('filter-pill-primer');
+            const btnStruktur = document.getElementById('filter-pill-struktur');
+            const btnAset = document.getElementById('filter-pill-aset');
+
+            [btnAll, btnPrimer, btnStruktur, btnAset].forEach(b => {
+                if (b) {
+                    b.className =
+                        "pill-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-gray-100 text-gray-600 hover:bg-gray-200 border border-transparent shrink-0";
+                }
+            });
+
+            if (category === 'All') {
+                btnAll.className = "pill-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-black text-white shadow shrink-0";
+            } else if (category === 'Primer') {
+                btnPrimer.className =
+                    "pill-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-brand-blue text-white shadow-md border border-brand-blue shrink-0";
+            } else if (category === 'Struktur') {
+                btnStruktur.className =
+                    "pill-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-yellow-700 text-white shadow-md border border-yellow-800 shrink-0";
+            } else if (category === 'Aset') {
+                btnAset.className =
+                    "pill-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-brand-red text-white shadow-md border border-brand-red shrink-0";
+            }
+            renderDiscoverReportsGrid();
+        }
+
+        function filterReports() {
+            renderDiscoverReportsGrid();
+        }
+
+        // ===== DISCOVERY GRID – IMPROVED CARDS WITH SPACING =====
+        function renderDiscoverReportsGrid() {
+            const gridContainer = document.getElementById('reports-discovery-grid');
+            if (!gridContainer) return;
+            const searchQuery = document.getElementById('report-search-input').value.toLowerCase();
+            gridContainer.innerHTML = '';
+
+            const filteredReports = reportsDb.filter(item => {
+                const matchesSearch = item.title.toLowerCase().includes(searchQuery) || item.description.toLowerCase()
+                    .includes(searchQuery);
+                const matchesCategory = (selectedCategoryFilter === 'All') || (item.tag === selectedCategoryFilter);
+                return matchesSearch && matchesCategory;
+            });
+
+            if (filteredReports.length === 0) {
+                gridContainer.innerHTML = `
+                    <div class="empty-state col-span-2 lg:col-span-3">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <p>Tidak ada laporan yang cocok dengan filter pencarian.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredReports.forEach(item => {
+                let tagColorClass = 'bg-tag-primer';
+                if (item.tag === 'Struktur') tagColorClass = 'bg-tag-struktur';
+                if (item.tag === 'Aset') tagColorClass = 'bg-tag-aset';
+                const isActive = item.id === activeSelectedReportId;
+                const activeClass = isActive ? 'active-card' : '';
+
+                gridContainer.innerHTML += `
+                    <div onclick="selectActiveDetailReport(${item.id})" class="report-card ${activeClass}">
+                        <img src="${item.image}" alt="${item.title}" class="card-image">
+                        <div class="card-overlay">
+                            <span class="card-tag ${tagColorClass}">${item.tag}</span>
+                            <h4 class="card-title">${item.title}</h4>
+                            <p class="card-desc">${item.description}</p>
+                            <div class="card-arrow">
+                                <span></span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // ===== DETAIL PANEL =====
+        function selectActiveDetailReport(id) {
+            activeSelectedReportId = id;
+            renderDiscoverReportsGrid();
+            renderActiveReportDetail();
+
+            if (window.innerWidth < 1024) {
+                const detail = document.getElementById('discovery-detail-container');
+                const list = document.getElementById('discovery-list-container');
+                if (detail && list) {
+                    detail.classList.add('mobile-active');
+                    list.classList.add('hidden-on-mobile');
+                    detail.scrollTop = 0;
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+        }
+
+        function closeMobileDetail() {
+            const detail = document.getElementById('discovery-detail-container');
+            const list = document.getElementById('discovery-list-container');
+            if (detail && list) {
+                detail.classList.remove('mobile-active');
+                list.classList.remove('hidden-on-mobile');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function renderActiveReportDetail() {
+            const container = document.getElementById('active-detail-container');
+            if (!container) return;
+
+            const item = reportsDb.find(r => r.id === activeSelectedReportId);
+            if (!item) {
+                container.innerHTML =
+                    '<p class="text-xs text-gray-400 text-center py-10">Pilih laporan dari grid untuk melihat info lengkap.</p>';
+                return;
+            }
+
+            let tagColorClass = 'bg-tag-primer';
+            if (item.tag === 'Struktur') tagColorClass = 'bg-tag-struktur';
+            if (item.tag === 'Aset') tagColorClass = 'bg-tag-aset';
+
+            let commentsHtml = '';
+            if (item.comments.length === 0) {
+                commentsHtml = '<p class="text-[10px] text-gray-400 text-center py-2">Belum ada tanggapan warga.</p>';
+            } else {
+                item.comments.forEach(c => {
+                    commentsHtml += `
+                        <div class="flex flex-col gap-1">
+                            <div class="bg-gray-900 text-white rounded-xl py-2.5 px-3.5 text-[11px] shadow-sm leading-relaxed">${c.text}</div>
+                            <div class="flex items-center gap-2 px-2 mt-0.5 justify-end">
+                                <div class="text-right">
+                                    <h5 class="text-[9px] font-bold text-gray-950">${c.author}</h5>
+                                    <p class="text-[7px] text-gray-400">${c.role}</p>
+                                </div>
+                                <div class="w-5 h-5 rounded-full bg-gray-200 border border-gray-300 flex items-center justify-center text-[8px] font-bold text-gray-800">${c.author.substring(0,2).toUpperCase()}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            container.innerHTML = `
+                <div class="w-full aspect-video rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+                    <img class="w-full h-full object-cover" src="${item.image}">
+                </div>
+                <div class="flex flex-col gap-2">
+                    <div><span class="text-[9px] font-bold text-white uppercase px-2.5 py-0.5 rounded ${tagColorClass}">${item.tag}</span></div>
+                    <h2 class="text-xl font-extrabold text-gray-950">${item.title}</h2>
+                    <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">About</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed text-justify">${item.content || item.description}</p>
+                </div>
+                <div class="flex items-center justify-between border-t border-b border-gray-100 py-2 my-2">
+                    <span class="text-[10px] font-bold text-gray-400 uppercase">Dukung Laporan ini</span>
+                    <button onclick="upvoteActiveReport(${item.id})" class="flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-brand-blue transition">
+                        <i class="fa-regular fa-thumbs-up"></i> <span>${item.likes}</span>
+                    </button>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Tanggapan Warga</h4>
+                    <div class="comments-scroll space-y-3">${commentsHtml}</div>
+                </div>
+            `;
+        }
+
+        function upvoteActiveReport(id) {
+            const item = reportsDb.find(r => r.id === id);
+            if (item) {
+                item.likes++;
+                renderActiveReportDetail();
+            }
+        }
+
+        function handleCommentSubmit(event) {
+            event.preventDefault();
+            const input = document.getElementById('comment-input');
+            const commentText = input.value;
+            const item = reportsDb.find(r => r.id === activeSelectedReportId);
+            if (item && commentText.trim() !== '') {
+                item.comments.push({ author: "Warga", role: "Masyarakat Umum", text: commentText });
+                input.value = '';
+                renderActiveReportDetail();
+                showToast("Tanggapan Ditambahkan!");
+            }
+        }
+
+        function copyShareLink() {
+            const pathUrl = window.location.href.split('#')[0] + "#report-" + activeSelectedReportId;
+            const dummy = document.createElement("input");
+            document.body.appendChild(dummy);
+            dummy.value = pathUrl;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+            showToast("Tautan laporan telah disalin ke papan klip!");
+        }
+
+        function showToast(message) {
+            const toast = document.createElement("div");
+            toast.className =
+                "fixed bottom-24 md:bottom-8 right-8 bg-black text-white px-6 py-3 rounded-xl shadow-2xl text-xs font-semibold tracking-wide z-50 transition-all transform duration-300 scale-90 opacity-0";
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove('scale-90', 'opacity-0');
+                toast.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            setTimeout(() => {
+                toast.classList.remove('scale-100', 'opacity-100');
+                toast.classList.add('scale-90', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // ===== CHART =====
+        function initializeChart() {
+            const ctx = document.getElementById('laporanBarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Fisik', 'Fasilitas Dasar', 'Produktivitas'],
+                    datasets: [{
+                        data: [60, 45, 78],
+                        backgroundColor: ['#3b82f6', '#ea4335', '#00c770'],
+                        barThickness: 50,
+                        borderWidth: 0,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) { return context.parsed.y + '%'; }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 80,
+                            ticks: { stepSize: 20, font: { size: 11 } },
+                            grid: { color: '#f3f4f6', drawBorder: false }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 11, weight: '500' }, color: '#374151' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ===== RENDER ALL =====
+        function renderAllViews() {
+            document.getElementById('total-reports-stat').textContent = reportsDb.length;
+            renderIsuMasyarakat();
+            renderMyReportsList();
+            renderDiscoverReportsGrid();
+            renderActiveReportDetail();
+        }
+
+        // ===== WINDOW RESIZE =====
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                const detail = document.getElementById('discovery-detail-container');
+                const list = document.getElementById('discovery-list-container');
+                if (detail) detail.classList.remove('mobile-active');
+                if (list) list.classList.remove('hidden-on-mobile');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // ===== INIT =====
+        window.onload = function() {
+            renderAllViews();
+            initializeChart();
+            if (window.innerWidth < 1024) {
+                const detail = document.getElementById('discovery-detail-container');
+                if (detail) detail.classList.remove('mobile-active');
+            }
+            if (reportsDb.length > 0) {
+                activeSelectedReportId = reportsDb[0].id;
+                renderActiveReportDetail();
+            }
+        };
+    </script>
+</body>
+</html>

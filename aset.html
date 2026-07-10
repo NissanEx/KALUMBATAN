@@ -23,8 +23,13 @@
                     fontFamily: { sans: ['Poppins', 'sans-serif'] },
                     colors: {
                         'brand-dark': '#1a1a1a',
+<<<<<<< HEAD
                         'bubble-dark': '#242424',
                         'star-yellow': '#fbbf24'
+=======
+                        'star-yellow': '#f59e0b',
+                        'review-bg': '#f8f9fa',
+>>>>>>> 8a7ea0c (fuck)
                     },
                 },
             },
@@ -65,6 +70,7 @@
             padding-bottom: 4px;
         }
 
+<<<<<<< HEAD
         .review-bubble {
             position: relative;
         }
@@ -89,6 +95,47 @@
         }
         .asset-card.active {
             border-color: #111827;
+=======
+        /* Review card - minimal clean style */
+        .review-card {
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 1.25rem;
+        }
+        .review-card:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        /* Star rating interactive */
+        .star-interactive i {
+            cursor: pointer;
+            transition: color 0.15s;
+            color: #d1d5db;
+        }
+        .star-interactive i:hover,
+        .star-interactive i.hovered,
+        .star-interactive i.selected {
+            color: #f59e0b;
+        }
+
+        /* Detail info chip */
+        .info-chip {
+            background: #f8fafc;
+            border: 1px solid #e8ecf0;
+            border-radius: 10px;
+            padding: 0.5rem 0.875rem;
+        }
+
+        .asset-card {
+            transition: background 0.15s ease;
+            cursor: pointer;
+        }
+        .asset-card:hover {
+            background: #f8fafc;
+        }
+        .asset-card.active {
+            background: #f1f5f9;
+>>>>>>> 8a7ea0c (fuck)
         }
 
         /* Mobile Sidebar Bottom */
@@ -211,12 +258,17 @@
             <!-- ========================================== -->
             <section id="asset-detail-panel" class="fixed inset-0 z-50 bg-black/60 p-4 flex justify-center items-center lg:relative lg:inset-auto lg:bg-white lg:p-6 lg:z-auto lg:rounded-3xl lg:shadow-xl transition-opacity duration-300 opacity-0 pointer-events-none lg:opacity-100 lg:pointer-events-auto h-full overflow-hidden flex-col">
                 
+<<<<<<< HEAD
                 <div class="bg-white rounded-3xl p-5 md:p-6 w-full max-w-2xl max-h-[90vh] lg:max-h-full flex flex-col relative overflow-hidden transform scale-95 transition-transform duration-300 lg:scale-100 lg:p-0 lg:shadow-none h-full">
+=======
+                <div class="bg-white rounded-3xl p-5 md:p-6 w-full max-w-2xl max-h-[90vh] lg:max-h-full flex flex-col relative overflow-hidden transform scale-95 transition-transform duration-300 lg:scale-100 lg:p-0 lg:shadow-none lg:rounded-none lg:overflow-visible h-full">
+>>>>>>> 8a7ea0c (fuck)
                     
                     <button onclick="closeDetailPanel()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 lg:hidden z-10">
                         <i class="fa-solid fa-xmark text-xl"></i>
                     </button>
 
+<<<<<<< HEAD
                     <h2 class="text-2xl font-bold text-gray-900 mb-6 lg:mb-8 pb-2 border-b lg:border-none">Informasi Aset</h2>
 
                     <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 flex flex-col gap-6" id="detail-content-area">
@@ -261,6 +313,69 @@
                             </div>
                             <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" alt="You" class="w-10 h-10 rounded-full object-cover shadow-sm mt-1 shrink-0" />
                         </div>
+=======
+                    <h2 class="text-xl font-bold text-gray-900 mb-5 pb-3 border-b border-gray-100 lg:border-none flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-gray-400 text-base"></i>
+                        Informasi Aset
+                    </h2>
+
+                    <div class="flex-1 overflow-y-auto custom-scrollbar pr-1 flex flex-col gap-5" id="detail-content-area">
+                        
+                        <!-- Asset image + basic info -->
+                        <div class="flex gap-4 items-start">
+                            <div class="w-28 h-28 shrink-0 rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+                                <img id="detail-image" src="" alt="Aset" class="w-full h-full object-cover" />
+                            </div>
+                            <div class="flex-1 flex flex-col gap-2 min-w-0">
+                                <span id="detail-nama" class="font-bold text-gray-900 text-base leading-snug"></span>
+                                <span id="detail-kategori" class="text-xs font-medium text-gray-400 uppercase tracking-wide"></span>
+                                <div id="detail-stars" class="flex gap-0.5 text-star-yellow text-sm my-0.5"></div>
+                                <div class="flex flex-wrap gap-2 mt-1">
+                                    <span class="info-chip text-xs text-gray-600 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-cubes-stacked text-gray-400 text-[10px]"></i>
+                                        <span id="detail-jumlah"></span>
+                                    </span>
+                                    <span class="info-chip text-xs text-gray-600 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-circle-info text-gray-400 text-[10px]"></i>
+                                        <span id="detail-fungsi"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Divider + Review section -->
+                        <div class="flex flex-col gap-1">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-sm font-semibold text-gray-800">Ulasan Warga</span>
+                                <span id="review-count" class="text-xs text-gray-400"></span>
+                            </div>
+                            <div id="detail-reviews" class="flex flex-col gap-4"></div>
+                        </div>
+
+                        <!-- Write review input -->
+                        <div class="mt-2 mb-1">
+                            <div class="text-xs font-semibold text-gray-700 mb-2">Tulis Ulasan</div>
+                            <div class="border border-gray-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+                                <textarea rows="3" class="w-full outline-none text-sm text-gray-800 placeholder-gray-400 resize-none px-4 pt-3 pb-2 bg-transparent" placeholder="Bagikan pendapat Anda tentang aset ini..."></textarea>
+                                <div class="flex items-center justify-between px-4 pb-3 pt-1 border-t border-gray-100">
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="text-xs text-gray-400 mr-1">Rating:</span>
+                                        <div class="star-interactive flex gap-0.5 text-base" id="star-input">
+                                            <i class="fa-solid fa-star" data-val="1"></i>
+                                            <i class="fa-solid fa-star" data-val="2"></i>
+                                            <i class="fa-solid fa-star" data-val="3"></i>
+                                            <i class="fa-solid fa-star" data-val="4"></i>
+                                            <i class="fa-solid fa-star" data-val="5"></i>
+                                        </div>
+                                    </div>
+                                    <button class="bg-gray-900 hover:bg-gray-700 text-white text-xs font-semibold px-4 py-1.5 rounded-full transition-colors">
+                                        Kirim
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+>>>>>>> 8a7ea0c (fuck)
                     </div>
                 </div>
             </section>
@@ -408,7 +523,11 @@
             }
 
             assetListContainer.innerHTML = filtered.map(item => `
+<<<<<<< HEAD
                 <div onclick="selectAsset(${item.id})" class="asset-card flex gap-4 items-center rounded-2xl p-3 bg-white ${currentAssetId === item.id ? 'active bg-gray-50' : 'hover:bg-gray-50'}">
+=======
+                <div onclick="selectAsset(${item.id})" class="asset-card flex gap-4 items-center rounded-2xl p-3 bg-white">
+>>>>>>> 8a7ea0c (fuck)
                     <div class="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-xl overflow-hidden shadow-sm">
                         <img src="${item.image}" alt="${item.nama}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" loading="lazy" />
                     </div>
@@ -432,11 +551,19 @@
             currentAssetId = id;
             const asset = asetData.find(a => a.id === id);
             
+<<<<<<< HEAD
             document.querySelectorAll('.asset-card').forEach(card => card.classList.remove('active', 'bg-gray-50'));
             const cards = assetListContainer.children;
             const index = (currentCategory === 'dashboard' ? asetData : asetData.filter(a=>a.kategoriId === currentCategory)).findIndex(a=>a.id === id);
             if(cards[index]) {
                 cards[index].classList.add('active', 'bg-gray-50');
+=======
+            document.querySelectorAll('.asset-card').forEach(card => card.classList.remove('active'));
+            const cards = assetListContainer.children;
+            const index = (currentCategory === 'dashboard' ? asetData : asetData.filter(a=>a.kategoriId === currentCategory)).findIndex(a=>a.id === id);
+            if(cards[index]) {
+                cards[index].classList.add('active');
+>>>>>>> 8a7ea0c (fuck)
             }
 
             dImage.src = asset.image;
@@ -447,6 +574,7 @@
             dStars.innerHTML = generateStarsHTML(asset.rating, 'text-lg');
 
             dReviews.innerHTML = asset.reviews.map(rev => `
+<<<<<<< HEAD
                 <div class="flex items-start gap-4 flex-row-reverse mb-2">
                     <div class="flex flex-col items-center gap-1 w-14 shrink-0">
                         <img src="${rev.avatar}" class="w-10 h-10 rounded-full bg-gray-200" alt="Avatar"/>
@@ -466,10 +594,36 @@
                             </div>
                             <button class="text-gray-500 hover:text-white transition"><i class="fa-regular fa-thumbs-up text-sm"></i></button>
                         </div>
+=======
+                <div class="review-card flex gap-3 items-start">
+                    <img src="${rev.avatar}" class="w-9 h-9 rounded-full object-cover shrink-0 mt-0.5 border border-gray-100" alt="${rev.user}" />
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between gap-2 mb-0.5">
+                            <div>
+                                <span class="font-semibold text-gray-900 text-sm">${rev.user}</span>
+                                <span class="text-gray-400 text-xs ml-1.5">· ${rev.role}</span>
+                            </div>
+                            <div class="flex gap-0.5 text-star-yellow text-xs shrink-0">
+                                ${generateStarsHTML(rev.rating, 'text-xs')}
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 leading-relaxed mt-1">${rev.text}</p>
+                        <button class="mt-2 flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-700 transition-colors group">
+                            <i class="fa-regular fa-thumbs-up group-hover:text-gray-700"></i>
+                            <span>Berguna</span>
+                        </button>
+>>>>>>> 8a7ea0c (fuck)
                     </div>
                 </div>
             `).join('');
 
+<<<<<<< HEAD
+=======
+            // Update review count
+            const reviewCountEl = document.getElementById('review-count');
+            if (reviewCountEl) reviewCountEl.textContent = `${asset.reviews.length} ulasan`;
+
+>>>>>>> 8a7ea0c (fuck)
             if (openModal && window.innerWidth < 1024) {
                 detailPanel.classList.remove('opacity-0', 'pointer-events-none');
                 detailPanel.firstElementChild.classList.remove('scale-95');
@@ -495,6 +649,35 @@
                     closeDetailPanel();
                 }
             });
+<<<<<<< HEAD
+=======
+
+            // Star input interactivity
+            const starInput = document.getElementById('star-input');
+            if (starInput) {
+                let selectedRating = 0;
+                const stars = starInput.querySelectorAll('i');
+                stars.forEach(star => {
+                    star.addEventListener('mouseenter', () => {
+                        const val = parseInt(star.dataset.val);
+                        stars.forEach((s, i) => {
+                            s.style.color = i < val ? '#f59e0b' : '#d1d5db';
+                        });
+                    });
+                    star.addEventListener('mouseleave', () => {
+                        stars.forEach((s, i) => {
+                            s.style.color = i < selectedRating ? '#f59e0b' : '#d1d5db';
+                        });
+                    });
+                    star.addEventListener('click', () => {
+                        selectedRating = parseInt(star.dataset.val);
+                        stars.forEach((s, i) => {
+                            s.style.color = i < selectedRating ? '#f59e0b' : '#d1d5db';
+                        });
+                    });
+                });
+            }
+>>>>>>> 8a7ea0c (fuck)
         };
 
         window.addEventListener('resize', () => {
