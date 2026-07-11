@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>ExSan - Kalumbatan Village</title>
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com">
-    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -43,12 +42,14 @@
             background-color: #000;
             overflow: hidden;
         }
+        
         /* Halaman About – right half background */
         .about-right-bg {
             background-image: url('img/kampohtoe.JPG');
             background-size: cover;
             background-position: center;
         }
+        
         /* Halaman Synopsis & Function – full background */
         .bg-synopsis {
             background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
@@ -61,7 +62,7 @@
             background-position: center;
         }
 
-        /* ===== CHARACTER HERO – DITURUNKAN ===== */
+        /* ===== CHARACTER HERO – DEKSTOP ===== */
         .hero-character {
             position: absolute;
             bottom: -8%;
@@ -74,6 +75,7 @@
             pointer-events: none;
             opacity: 0.35;
             filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
+            transition: all 0.5s ease;
         }
         @media (min-width: 640px) {
             .hero-character {
@@ -125,7 +127,7 @@
             width: auto;
             object-fit: contain;
             object-position: bottom center;
-            opacity: 0.25;
+            opacity: 0.15;
             filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.5));
             transform: translateX(0%) translateY(0%);
         }
@@ -153,9 +155,6 @@
             .about-character-wrapper img {
                 max-height: 52%;
             }
-        }
-        #about {
-            overflow: visible !important;
         }
 
         .card-bg-1 {
@@ -190,6 +189,7 @@
             position: relative;
             z-index: 2;
         }
+        
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -204,287 +204,207 @@
             background: #555;
         }
 
-        /* ===== PERBAIKAN MOBILE – SETIAP HALAMAN FULL LAYAR ===== */
-        @media (max-width: 768px) {
+        /* ===== PERBAIKAN STRUKTUR SCROLL MOBILE & PROTEKSI OVERFLOW ===== */
+        @media (max-width: 767px) {
             .snap-start {
-                height: 100vh;
-                height: 100svh;
-                min-height: 100vh;
-                min-height: 100svh;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                scroll-snap-align: start;
+                height: 100dvh !important;
+                min-height: 100dvh !important;
+                max-height: 100dvh !important;
+                overflow-y: hidden !important; /* Mencegah overflow liar antar halaman */
+                position: relative;
+                box-sizing: border-box;
             }
 
             /* Halaman 1 – Hero */
             #home {
-                height: 100vh;
-                height: 100svh;
-                min-height: 100vh;
-                min-height: 100svh;
-                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
             }
             #home .flex-1 {
-                padding-top: 2rem;
-                padding-bottom: 0.5rem;
-                flex: 1 1 auto;
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: calc(100dvh - 56px - 110px); /* Kurangi tinggi header & info strip */
             }
             #home .hero-character {
-                height: 50%;
-                bottom: 0%;
-                left: 0%;
-                opacity: 0.2;
+                height: 40%;
+                bottom: 110px; /* Di atas info strip */
+                left: 5%;
+                opacity: 0.15;
             }
             #home .font-title {
-                font-size: 2rem;
+                font-size: 2.25rem;
+                letter-spacing: 0.05em;
             }
             #home .font-script {
-                font-size: 1.4rem;
-                bottom: -0.6rem;
-            }
-            #home .relative.mb-8 {
-                margin-bottom: 1.5rem;
-            }
-            #home .flex.gap-3 {
-                gap: 0.5rem;
+                font-size: 1.5rem;
+                bottom: -0.5rem;
             }
             #home .px-8 {
-                padding-left: 1.2rem;
-                padding-right: 1.2rem;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
             }
             #home .py-3 {
                 padding-top: 0.5rem;
                 padding-bottom: 0.5rem;
             }
 
-            /* Info strip – lebih pendek */
+            /* Info strip – Tetap rapi & pendek di mobile */
             #info-strip-container {
-                height: 140px !important;
+                height: 110px !important;
             }
             .info-slide {
-                padding: 0.5rem !important;
+                padding: 0.75rem 1rem !important;
+                height: 100% !important;
             }
             .info-slide h3 {
-                font-size: 0.75rem !important;
+                font-size: 0.9rem !important;
             }
             .info-slide p {
-                font-size: 0.65rem !important;
+                font-size: 0.7rem !important;
+                line-height: 1.3 !important;
             }
 
             /* Halaman 2 – About */
             #about {
-                height: 100vh;
-                height: 100svh;
-                min-height: 100vh;
-                min-height: 100svh;
-                overflow-y: auto;
+                display: flex;
                 flex-direction: column;
+                justify-content: flex-start;
+                background-color: #000;
             }
-            #about .md\:w-1\/2 {
-                width: 100%;
-            }
-            #about .z-20 {
-                min-height: 45vh;
-                padding: 1rem 1.25rem;
+            #about .about-left-half {
+                height: 50dvh;
+                padding: 1.25rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                z-index: 20;
             }
             #about .about-right-bg {
-                height: 45vh;
-                min-height: 35vh;
+                height: 50dvh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 1rem 1.25rem;
+                z-index: 10;
             }
             #about .about-character-wrapper img {
-                max-height: 25%;
-                opacity: 0.2;
+                max-height: 20%;
+                opacity: 0.1;
+                transform: translateY(-25%);
             }
             #about .font-title {
-                font-size: 2.2rem;
+                font-size: 1.75rem;
             }
             #about .font-script {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
             }
             #about .text-\[11px\] {
-                font-size: 0.65rem;
+                font-size: 0.7rem;
+                line-height: 1.4;
+                margin-bottom: 0.75rem;
+            }
+            #about .about-right-bg .max-w-sm {
+                width: 100%;
+                max-width: 280px;
+            }
+            #about .about-right-bg .h-24 {
+                height: 5rem;
             }
 
             /* Halaman 3 – Synopsis */
             #synopsis {
-                height: 100vh;
-                height: 100svh;
-                min-height: 100vh;
-                min-height: 100svh;
-                overflow-y: auto;
-                padding: 3rem 1rem 1rem;
+                padding: 1.5rem 1rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
             }
             #synopsis .container {
                 padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
                 gap: 1rem;
+                height: 100%;
             }
             #synopsis .w-\[45\%\] {
-                width: 80%;
+                width: 100%;
+                max-width: 240px;
+                margin: 0 auto;
+            }
+            #synopsis .w-\[55\%\] {
+                width: 100%;
             }
             #synopsis .font-title {
-                font-size: 2rem;
+                font-size: 1.75rem;
+                margin-bottom: 0.5rem;
+                text-align: center;
             }
             #synopsis .text-\[11px\] {
-                font-size: 0.6rem;
-                line-height: 1.4;
-            }
-            #synopsis .border-\[4px\] {
-                border-width: 2px;
+                font-size: 0.7rem;
+                line-height: 1.45;
+                text-align: justify;
             }
 
             /* Halaman 4 – Function */
             #function {
-                height: 100vh;
-                height: 100svh;
-                min-height: 100vh;
-                min-height: 100svh;
-                overflow-y: auto;
-                padding: 3rem 1rem 1rem;
+                padding: 1.5rem 1rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
             #function .container {
                 padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
                 gap: 1rem;
                 height: 100%;
             }
             #function .w-\[45\%\] {
                 width: 100%;
             }
+            #function .w-\[55\%\] {
+                width: 100%;
+                margin-top: 0.5rem;
+            }
             #function .font-title {
-                font-size: 2rem;
+                font-size: 1.75rem;
+                margin-bottom: 0.25rem;
+            }
+            #function h3 {
+                font-size: 0.75rem;
+            }
+            #function h4 {
+                font-size: 0.65rem;
+                margin-bottom: 0.5rem;
             }
             #function ul {
-                font-size: 0.6rem;
+                font-size: 0.65rem;
                 padding-left: 1rem;
+                margin-bottom: 0.75rem;
             }
             #function .card-bg-1,
             #function .card-bg-2,
             #function .card-bg-3 {
-                height: 16vh;
+                height: 100px;
                 min-height: 100px;
             }
             #function .card-content h3 {
-                font-size: 0.9rem;
+                font-size: 1rem;
             }
             #function .card-content p {
-                font-size: 0.5rem;
+                font-size: 0.6rem;
             }
-            #function .absolute.bottom-6 {
-                bottom: 0.3rem;
-            }
-            #function .page4-dash {
-                width: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #home .hero-character {
-                height: 40%;
-                bottom: 0%;
-                left: 0%;
-                opacity: 0.15;
-            }
-            #home .font-title {
-                font-size: 1.6rem;
-            }
-            #home .font-script {
-                font-size: 1.1rem;
-                bottom: -0.5rem;
-            }
-            #home .px-8 {
-                padding-left: 0.8rem;
-                padding-right: 0.8rem;
-            }
-            #home .py-3 {
-                padding-top: 0.4rem;
-                padding-bottom: 0.4rem;
-            }
-            #info-strip-container {
-                height: 120px !important;
-            }
-            .info-slide h3 {
-                font-size: 0.65rem !important;
-            }
-            .info-slide p {
-                font-size: 0.55rem !important;
-            }
-            #about .z-20 {
-                padding: 0.8rem 1rem;
-                min-height: 40vh;
-            }
-            #about .about-right-bg {
-                height: 40vh;
-            }
-            #about .about-character-wrapper img {
-                max-height: 20%;
-            }
-            #about .font-title {
-                font-size: 1.8rem;
-            }
-            #about .font-script {
-                font-size: 1.5rem;
-            }
-            #synopsis {
-                padding: 2rem 0.8rem 1rem;
-            }
-            #synopsis .font-title {
-                font-size: 1.6rem;
-            }
-            #synopsis .text-\[11px\] {
-                font-size: 0.55rem;
-            }
-            #function {
-                padding: 2rem 0.8rem 1rem;
-            }
-            #function .font-title {
-                font-size: 1.6rem;
-            }
-            #function .card-bg-1,
-            #function .card-bg-2,
-            #function .card-bg-3 {
-                height: 14vh;
-                min-height: 80px;
-            }
-        }
-
-        .mobile-nav-link-active {
-            color: white !important;
-            border-bottom: 2px solid white !important;
-            padding-bottom: 4px;
-        }
-        .desktop-nav-link-active {
-            color: black !important;
-            font-weight: 700 !important;
-            border-bottom: 2px solid black !important;
-            padding-bottom: 4px;
-        }
-        #home header {
-            z-index: 50;
-        }
-        #about .z-20 {
-            z-index: 20;
-        }
-        #about .z-0 {
-            z-index: 0;
-        }
-        #about .about-right-bg {
-            z-index: 1;
-        }
-        #about .about-right-bg .absolute.inset-0 {
-            z-index: 2;
-        }
-        #about .about-right-bg .relative.z-30 {
-            z-index: 5;
-        }
-
-        /* Panel pertama info strip – gunakan gambar kampohtoe */
-        .info-strip-first {
-            background-image: url('img/kampohtoe.JPG');
-            background-size: cover;
-            background-position: center;
         }
 
         /* ===== DESKTOP – Function full height ===== */
-        @media (min-width: 769px) {
+        @media (min-width: 768px) {
             #function {
                 height: 100vh;
                 min-height: 100vh;
@@ -545,9 +465,28 @@
                 height: 50vh;
             }
         }
+
+        .mobile-nav-link-active {
+            color: white !important;
+            border-bottom: 2px solid white !important;
+            padding-bottom: 4px;
+        }
+        .desktop-nav-link-active {
+            color: black !important;
+            font-weight: 700 !important;
+            border-bottom: 2px solid black !important;
+            padding-bottom: 4px;
+        }
+        
+        /* Panel pertama info strip – gunakan gambar kampohtoe */
+        .info-strip-first {
+            background-image: url('img/kampohtoe.JPG');
+            background-size: cover;
+            background-position: center;
+        }
     </style>
 </head>
-<body class="antialiased text-white">
+<body class="antialiased text-white select-none">
 
     <!-- ========================================== -->
     <!-- MAIN SCROLL CONTAINER -->
@@ -557,7 +496,7 @@
         <!-- ========================================== -->
         <!-- HALAMAN 1: HERO & INFO STRIP -->
         <!-- ========================================== -->
-        <section id="home" class="min-h-screen md:h-screen w-full snap-start flex flex-col bg-white text-black relative overflow-hidden">
+        <section id="home" class="h-screen w-full snap-start flex flex-col bg-white text-black relative overflow-hidden">
 
             <!-- HEADER -->
             <header class="sticky top-0 w-full bg-white shadow-md z-50">
@@ -592,13 +531,13 @@
             </div>
 
             <!-- Hero Area -->
-            <div class="flex-1 w-full relative flex flex-col items-center justify-center pt-24 pb-8 px-6 md:px-10 lg:px-24">
+            <div class="flex-1 w-full relative flex flex-col items-center justify-center px-6 md:px-10 lg:px-24">
                 <img src="img/petani.png" alt="Petani" class="hero-character" />
 
                 <div class="relative z-20 flex flex-col items-center md:items-start text-center md:text-left md:ml-auto w-full md:w-auto">
-                    <div class="relative mb-8 md:mb-12">
+                    <div class="relative mb-6 md:mb-12">
                         <h1 class="font-title text-4xl sm:text-5xl md:text-[5rem] lg:text-[7rem] leading-none uppercase tracking-wide text-gray-900 drop-shadow-sm">KALUMBATAN</h1>
-                        <h2 class="font-script text-3xl sm:text-[40px] md:text-[50px] lg:text-[60px] text-gray-500 absolute -bottom-6 sm:-bottom-8 md:-bottom-10 lg:-bottom-12 right-0 md:-right-8 drop-shadow-sm">Village</h2>
+                        <h2 class="font-script text-3xl sm:text-[40px] md:text-[50px] lg:text-[60px] text-gray-500 absolute -bottom-5 sm:-bottom-8 md:-bottom-10 lg:-bottom-12 right-0 md:-right-8 drop-shadow-sm">Village</h2>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6 w-full sm:w-auto">
                         <a href="#about" class="bg-black text-white px-8 md:px-10 py-3 text-sm font-semibold rounded shadow-lg hover:bg-gray-800 transition text-center w-full sm:w-auto">Masuk</a>
@@ -607,9 +546,9 @@
                 </div>
             </div>
 
-            <!-- Info Strip – HAPUS panah dan titik-titik -->
+            <!-- Info Strip -->
             <div class="w-full bg-exsan-strip text-white relative mt-auto z-30 shadow-[0_-10px_30px_rgba(0,0,0,0.2)]">
-                <div id="info-strip-container" class="relative w-full h-[200px] sm:h-[190px] md:h-auto md:grid md:grid-cols-4">
+                <div id="info-strip-container" class="relative w-full h-[110px] md:h-auto md:grid md:grid-cols-4">
                     <!-- Panel 1 – KALUMBATAN (background kampohtoe) -->
                     <div class="info-slide absolute inset-0 md:relative md:inset-auto md:w-auto h-full info-strip-first border-r-0 md:border-r border-gray-800 p-4 md:p-6 flex flex-col justify-end cursor-pointer group transition-all duration-500 opacity-100 z-10" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
                         <div class="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition"></div>
@@ -618,31 +557,31 @@
                             <p class="font-script text-xl md:text-2xl lg:text-[28px] -mt-1 md:-mt-2 text-gray-200">Village</p>
                         </div>
                     </div>
-                    <!-- Panel 2 – Synopsis (tanpa panah) -->
+                    <!-- Panel 2 – Synopsis -->
                     <div class="info-slide absolute inset-0 md:relative md:inset-auto md:w-auto h-full border-r-0 md:border-r border-gray-800 p-4 md:p-6 flex flex-col justify-center cursor-pointer hover:bg-white/5 transition-all duration-500 opacity-0 md:opacity-100 z-0" onclick="document.getElementById('synopsis').scrollIntoView({behavior:'smooth'})">
-                        <h4 class="text-xs md:text-sm font-semibold mb-2 text-white">Synopsis</h4>
-                        <p class="text-[10px] md:text-xs text-gray-400 leading-relaxed mb-3 text-justify line-clamp-4 md:line-clamp-none">Pusat informasi digital yang dirancang untuk mewujudkan tata kelola pemerintahan yang terbuka, akuntabel, dan partisipatif.</p>
+                        <h4 class="text-xs md:text-sm font-semibold mb-1 text-white">Synopsis</h4>
+                        <p class="text-[10px] md:text-xs text-gray-400 leading-relaxed text-justify line-clamp-3 md:line-clamp-none">Pusat informasi digital yang dirancang untuk mewujudkan tata kelola pemerintahan yang terbuka, akuntabel, dan partisipatif.</p>
                     </div>
-                    <!-- Panel 3 – Function (tanpa panah) -->
+                    <!-- Panel 3 – Function -->
                     <div class="info-slide absolute inset-0 md:relative md:inset-auto md:w-auto h-full border-r-0 lg:border-r border-gray-800 p-4 md:p-6 flex flex-col justify-center cursor-pointer hover:bg-white/5 transition-all duration-500 opacity-0 md:opacity-100 z-0" onclick="document.getElementById('function').scrollIntoView({behavior:'smooth'})">
-                        <h4 class="text-xs md:text-sm font-semibold mb-2 text-white">Function</h4>
-                        <ul class="text-[10px] md:text-xs text-gray-400 space-y-1 list-disc pl-4 marker:text-gray-500">
+                        <h4 class="text-xs md:text-sm font-semibold mb-1 text-white">Function</h4>
+                        <ul class="text-[10px] md:text-xs text-gray-400 space-y-0.5 list-disc pl-4 marker:text-gray-500">
                             <li>E-Budgeting</li>
                             <li>Publikasi infografis APBDes.</li>
                         </ul>
                     </div>
-                    <!-- Panel 4 – Superiority (tanpa titik) -->
+                    <!-- Panel 4 – Superiority -->
                     <div class="info-slide absolute inset-0 md:relative md:inset-auto md:w-auto h-full p-4 md:p-6 flex flex-col justify-center cursor-pointer hover:bg-white/5 transition-all duration-500 opacity-0 md:opacity-100 z-0" onclick="document.getElementById('function').scrollIntoView({behavior:'smooth'})">
-                        <h4 class="text-xs md:text-sm font-semibold mb-2 text-white">Superiority</h4>
-                        <p class="text-[10px] md:text-xs text-gray-400 leading-relaxed text-justify">Desain platform minimalis dan modern, menyajikan informasi bersih.</p>
+                        <h4 class="text-xs md:text-sm font-semibold mb-1 text-white">Superiority</h4>
+                        <p class="text-[10px] md:text-xs text-gray-400 leading-relaxed text-justify line-clamp-3 md:line-clamp-none">Desain platform minimalis dan modern, menyajikan informasi bersih.</p>
                     </div>
                 </div>
-                <!-- Mobile dots (tetap) -->
-                <div class="flex md:hidden absolute bottom-3 left-1/2 transform -translate-x-1/2 gap-2 z-40">
-                    <button onclick="setMobileSlide(0)" class="mobile-dot w-2 h-2 rounded-full bg-white transition-all"></button>
-                    <button onclick="setMobileSlide(1)" class="mobile-dot w-2 h-2 rounded-full bg-gray-600 transition-all"></button>
-                    <button onclick="setMobileSlide(2)" class="mobile-dot w-2 h-2 rounded-full bg-gray-600 transition-all"></button>
-                    <button onclick="setMobileSlide(3)" class="mobile-dot w-2 h-2 rounded-full bg-gray-600 transition-all"></button>
+                <!-- Mobile dots -->
+                <div class="flex md:hidden absolute bottom-2 left-1/2 transform -translate-x-1/2 gap-2 z-40">
+                    <button onclick="setMobileSlide(0)" class="mobile-dot w-1.5 h-1.5 rounded-full bg-white transition-all"></button>
+                    <button onclick="setMobileSlide(1)" class="mobile-dot w-1.5 h-1.5 rounded-full bg-gray-600 transition-all"></button>
+                    <button onclick="setMobileSlide(2)" class="mobile-dot w-1.5 h-1.5 rounded-full bg-gray-600 transition-all"></button>
+                    <button onclick="setMobileSlide(3)" class="mobile-dot w-1.5 h-1.5 rounded-full bg-gray-600 transition-all"></button>
                 </div>
             </div>
         </section>
@@ -650,41 +589,39 @@
         <!-- ========================================== -->
         <!-- HALAMAN 2: ABOUT -->
         <!-- ========================================== -->
-        <section id="about" class="min-h-screen md:h-screen w-full snap-start relative flex flex-col md:flex-row overflow-visible bg-black">
+        <section id="about" class="h-screen w-full snap-start relative flex flex-col md:flex-row overflow-hidden bg-black">
 
             <!-- LEFT HALF – HITAM -->
-            <div class="w-full md:w-1/2 h-auto md:h-full bg-black flex flex-col justify-center px-6 py-12 md:py-0 md:px-12 lg:px-20 z-20 relative order-1 md:order-1">
-                <div class="mb-4 md:mb-8 md:ml-6 lg:ml-10 text-center md:text-left">
-                    <h2 class="font-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-none uppercase tracking-wider text-white">KALUMBATAN</h2>
-                    <p class="font-script text-3xl sm:text-4xl md:text-[50px] lg:text-[55px] -mt-1 md:-mt-4 text-gray-400">Village</p>
+            <div class="about-left-half w-full md:w-1/2 bg-black flex flex-col justify-center px-6 md:px-12 lg:px-20 z-20 relative order-1 md:order-1">
+                <div class="mb-2 md:mb-8 md:ml-6 lg:ml-10 text-center md:text-left">
+                    <h2 class="font-title text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-none uppercase tracking-wider text-white">KALUMBATAN</h2>
+                    <p class="font-script text-2xl sm:text-4xl md:text-[50px] lg:text-[55px] -mt-1 md:-mt-4 text-gray-400">Village</p>
                 </div>
-                <p class="text-[11px] sm:text-xs md:text-sm text-gray-400 leading-relaxed md:leading-loose text-justify mb-6 md:mb-12 md:ml-6 lg:ml-10 md:pr-6 lg:pr-10">
+                <p class="text-[11px] sm:text-xs md:text-sm text-gray-400 leading-relaxed md:leading-loose text-justify mb-4 md:mb-12 md:ml-6 lg:ml-10 md:pr-6 lg:pr-10">
                     Desa di Kecamatan Totikum Selatan, Kabupaten Banggai Kepulauan, Sulawesi Tengah. Desa di pesisir Pulau Peling ini dikenal sebagai pemukiman Suku Bajo dan sedang dikembangkan menjadi Kampung Nelayan Merah Putih untuk mendongkrak ekonomi pesisir. Wilayahnya juga menjadi pusat konservasi dengan program buka-tutup area tangkapan gurita.
                 </p>
                 <div class="text-center md:text-left md:ml-6 lg:ml-10">
-                    <a href="#synopsis" class="inline-block border border-gray-500 text-gray-300 px-8 md:px-12 py-2.5 md:py-3 text-xs md:text-sm font-semibold rounded hover:bg-white hover:text-black transition w-fit">Selengkapnya</a>
+                    <a href="#synopsis" class="inline-block border border-gray-500 text-gray-300 px-6 md:px-12 py-2 md:py-3 text-[11px] md:text-sm font-semibold rounded hover:bg-white hover:text-black transition w-fit">Selengkapnya</a>
                 </div>
             </div>
 
             <!-- RIGHT HALF – GAMBAR KAMPOHTOE.JPG -->
-            <div class="w-full md:w-1/2 h-[60vh] md:h-full relative about-right-bg bg-cover bg-center z-0 flex items-end justify-center md:justify-end pb-8 md:pb-16 px-6 md:px-12 lg:pr-16 order-2 md:order-2">
+            <div class="w-full md:w-1/2 h-1/2 md:h-full relative about-right-bg bg-cover bg-center z-0 flex items-center justify-center md:items-end md:justify-end pb-4 md:pb-16 px-6 md:px-12 lg:pr-16 order-2 md:order-2">
                 <div class="absolute inset-0 bg-black/80 md:bg-gradient-to-r md:from-black/95 md:to-black/75 z-0"></div>
                 <div class="relative z-30 w-full max-w-sm mt-auto">
-                    <h2 class="text-lg md:text-xl lg:text-2xl font-bold mb-3 font-title tracking-wider text-white drop-shadow-md">Contact</h2>
-                    <div class="text-[11px] md:text-[13px] text-gray-200 leading-snug mb-4 drop-shadow-md bg-black/40 md:bg-transparent p-3 md:p-0 rounded-md backdrop-blur-sm md:backdrop-blur-none">
-                        <p>Kalumbatan</p>
-                        <p>Kec. Totikum Sel.</p>
-                        <p>Kab. Banggai Kepulauan</p>
-                        <p>Sulawesi Tengah</p>
-                        <p class="mt-2"><span class="font-bold text-white">Email :</span><br />kalumbatan@gmail.com</p>
+                    <h2 class="text-sm md:text-xl lg:text-2xl font-bold mb-1.5 md:mb-3 font-title tracking-wider text-white drop-shadow-md">Contact</h2>
+                    <div class="text-[10px] md:text-[13px] text-gray-200 leading-tight mb-2 md:mb-4 drop-shadow-md bg-black/40 md:bg-transparent p-2 md:p-0 rounded-md backdrop-blur-sm md:backdrop-blur-none">
+                        <p>Kalumbatan, Kec. Totikum Sel.</p>
+                        <p>Kab. Banggai Kepulauan, Sulawesi Tengah</p>
+                        <p class="mt-1"><span class="font-bold text-white">Email :</span> kalumbatan@gmail.com</p>
                     </div>
-                    <div class="w-full h-24 md:h-32 lg:h-36 bg-gray-200 rounded-sm overflow-hidden relative mb-4 border border-white/20 shadow-lg">
+                    <div class="w-full h-20 md:h-32 lg:h-36 bg-gray-200 rounded-sm overflow-hidden relative mb-2 md:mb-4 border border-white/20 shadow-lg">
                         <img src="img/kampohtoe.JPG" alt="Map Background" class="w-full h-full object-cover opacity-80 mix-blend-multiply" />
-                        <i class="fa-solid fa-location-dot absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-orange-500 text-2xl md:text-3xl drop-shadow-md"></i>
+                        <i class="fa-solid fa-location-dot absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-orange-500 text-lg md:text-3xl drop-shadow-md"></i>
                     </div>
                     <div class="flex justify-end gap-2 md:gap-3">
-                        <a href="#" class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-tr from-yellow-500 via-pink-600 to-purple-600 text-white flex items-center justify-center text-xs md:text-sm hover:scale-110 transition shadow-lg"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs md:text-sm hover:scale-110 transition shadow-lg"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-tr from-yellow-500 via-pink-600 to-purple-600 text-white flex items-center justify-center text-[10px] md:text-sm hover:scale-110 transition shadow-lg"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] md:text-sm hover:scale-110 transition shadow-lg"><i class="fa-brands fa-facebook-f"></i></a>
                     </div>
                 </div>
             </div>
@@ -698,7 +635,7 @@
         <!-- ========================================== -->
         <!-- HALAMAN 3: SYNOPSIS -->
         <!-- ========================================== -->
-        <section id="synopsis" class="min-h-screen md:h-screen w-full snap-start relative flex flex-col justify-center items-center bg-synopsis bg-cover bg-center overflow-hidden py-20 md:py-0">
+        <section id="synopsis" class="h-screen w-full snap-start relative flex flex-col justify-center items-center bg-synopsis bg-cover bg-center overflow-hidden">
             <div class="absolute inset-0 bg-black/85 z-0"></div>
 
             <header class="absolute top-0 left-0 w-full flex justify-between items-center py-4 md:py-6 px-6 md:px-10 xl:px-16 z-50">
@@ -715,15 +652,15 @@
                 </nav>
             </header>
 
-            <div class="container mx-auto px-6 md:px-8 lg:px-20 relative z-10 flex flex-col md:flex-row items-center gap-8 md:gap-10 lg:gap-16 w-full">
-                <div class="w-full md:w-[45%] flex justify-center mt-4 md:mt-0">
-                    <div class="border-[4px] md:border-[8px] border-white/20 shadow-2xl rounded-sm w-full max-w-sm md:max-w-full">
+            <div class="container mx-auto px-6 md:px-8 lg:px-20 relative z-10 flex flex-col md:flex-row items-center gap-4 md:gap-10 lg:gap-16 w-full">
+                <div class="w-full md:w-[45%] flex justify-center">
+                    <div class="border-[3px] md:border-[8px] border-white/20 shadow-2xl rounded-sm w-full max-w-[200px] md:max-w-full">
                         <img src="img/kampohtoe.JPG" alt="Presentasi" class="w-full h-auto aspect-[4/3] object-cover" />
                     </div>
                 </div>
                 <div class="w-full md:w-[55%] flex flex-col justify-center">
-                    <div class="mb-4 md:mb-8 lg:mb-12 text-center md:text-left">
-                        <h2 class="font-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-widest uppercase leading-tight text-white drop-shadow-md">SYNOPSIS</h2>
+                    <div class="mb-2 md:mb-8 lg:mb-12 text-center md:text-left">
+                        <h2 class="font-title text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-widest uppercase leading-tight text-white drop-shadow-md">SYNOPSIS</h2>
                     </div>
                     <p class="text-[11px] sm:text-[12px] md:text-sm lg:text-[15px] text-gray-300 leading-relaxed md:leading-loose text-justify tracking-wide">
                         A <span class="font-bold text-white">digital</span> information hub designed to foster open, accountable, and participatory governance by providing a two-way communication channel that enables the public to transparently access government data and policies, as well as offer input, suggestions, and constructive criticism for sustainable development—facilitated through integrated, accessible digital platforms <span class="font-bold text-white">responsive</span> to public information needs—while ensuring that every aspect of state financial management, social program implementation, and strategic decision-making remains open to monitoring and evaluation by the general public.
@@ -735,7 +672,7 @@
         <!-- ========================================== -->
         <!-- HALAMAN 4: FUNCTION – FULL LAYAR -->
         <!-- ========================================== -->
-        <section id="function" class="min-h-screen md:h-screen w-full snap-start relative flex flex-col justify-center bg-function bg-cover bg-center overflow-hidden py-16 md:py-0">
+        <section id="function" class="h-screen w-full snap-start relative flex flex-col justify-center bg-function bg-cover bg-center overflow-hidden">
             <div class="absolute inset-0 bg-black/90 z-0"></div>
 
             <header class="absolute top-0 left-0 w-full flex justify-between items-center py-4 md:py-6 px-6 md:px-10 xl:px-16 z-50">
@@ -752,33 +689,32 @@
                 </nav>
             </header>
 
-            <div class="container mx-auto px-6 md:px-8 lg:px-20 relative z-10 flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-12 w-full h-full items-center">
+            <div class="container mx-auto px-6 md:px-8 lg:px-20 relative z-10 flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-12 w-full h-full items-center">
                 <!-- Left column -->
-                <div class="w-full md:w-[45%] flex flex-col justify-center order-1 md:order-1 mt-0">
-                    <div class="mb-4 md:mb-6 text-center md:text-left">
-                        <h2 class="font-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-widest uppercase leading-tight text-white drop-shadow-md">FUNCTION</h2>
+                <div class="w-full md:w-[45%] flex flex-col justify-center order-1 md:order-1">
+                    <div class="mb-1 md:mb-6 text-center md:text-left">
+                        <h2 class="font-title text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-widest uppercase leading-tight text-white drop-shadow-md">FUNCTION</h2>
                     </div>
                     <div>
-                        <h3 class="font-bold text-xs md:text-sm lg:text-base mb-1 tracking-wide text-white text-center md:text-left">APBN (APBDes - Anggaran Pendapatan dan Belanja Desa)</h3>
-                        <h4 class="font-semibold text-[10px] md:text-xs lg:text-sm mb-3 md:mb-4 text-gray-400 tracking-wide text-center md:text-left">Pengelolaan Anggaran Desa</h4>
-                        <ul class="list-disc pl-5 space-y-1 md:space-y-1.5 text-[10px] md:text-xs lg:text-sm text-gray-300 mb-4 md:mb-6 leading-relaxed tracking-wide text-left">
+                        <h3 class="font-bold text-[10px] md:text-sm lg:text-base mb-0.5 tracking-wide text-white text-center md:text-left">APBN (APBDes - Anggaran Pendapatan dan Belanja Desa)</h3>
+                        <h4 class="font-semibold text-[9px] md:text-xs lg:text-sm mb-2 md:mb-4 text-gray-400 tracking-wide text-center md:text-left">Pengelolaan Anggaran Desa</h4>
+                        <ul class="list-disc pl-5 space-y-0.5 md:space-y-1.5 text-[10px] md:text-xs lg:text-sm text-gray-300 mb-3 md:mb-6 leading-relaxed tracking-wide text-left">
                             <li>Penyusunan dan perencanaan APBDes online</li>
                             <li>Publikasi infografis APBDes interaktif</li>
                             <li>Alokasi anggaran per sektor/program</li>
                             <li>Simulasi dan proyeksi anggaran</li>
                             <li>Pelaporan realisasi anggaran berkala</li>
-                            <li class="hidden sm:list-item">Monitoring pengeluaran anggaran real-time</li>
                         </ul>
                         <div class="text-center md:text-left">
-                            <a href="#home" class="inline-block border border-gray-500 text-gray-300 px-8 md:px-10 py-2 md:py-2.5 text-xs md:text-sm font-semibold rounded hover:bg-white hover:text-black transition">Masuk</a>
+                            <a href="#home" class="inline-block border border-gray-500 text-gray-300 px-6 md:px-10 py-1.5 md:py-2.5 text-[11px] md:text-sm font-semibold rounded hover:bg-white hover:text-black transition">Masuk</a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Right column – cards -->
-                <div class="w-full md:w-[55%] overflow-hidden relative order-2 md:order-2 h-auto">
-                    <div id="page4-cards-slider" class="flex md:grid md:grid-cols-3 gap-3 md:gap-4 w-full h-auto sm:h-[25vh] md:h-[40vh] lg:h-[50vh] transition-transform duration-500 ease-out">
-                        <div class="min-w-[100%] md:min-w-0 h-28 sm:h-auto card-bg-1 rounded-sm overflow-hidden relative flex flex-col justify-end p-3 md:p-4 lg:p-5 group cursor-pointer border border-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform md:hover:-translate-y-2 transition duration-300">
+                <div class="w-full md:w-[55%] overflow-hidden relative order-2 md:order-2">
+                    <div id="page4-cards-slider" class="flex md:grid md:grid-cols-3 gap-3 md:gap-4 w-full h-auto transition-transform duration-500 ease-out">
+                        <div class="min-w-[100%] md:min-w-0 h-24 sm:h-auto card-bg-1 rounded-sm overflow-hidden relative flex flex-col justify-end p-3 md:p-4 lg:p-5 group cursor-pointer border border-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform md:hover:-translate-y-2 transition duration-300">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent group-hover:via-black/60 transition duration-300"></div>
                             <div class="card-content">
                                 <h3 class="font-title text-base sm:text-lg md:text-xl lg:text-2xl font-bold uppercase mb-0.5 md:mb-1 lg:mb-2 text-white">APBN</h3>
@@ -788,7 +724,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="min-w-[100%] md:min-w-0 h-28 sm:h-auto card-bg-2 rounded-sm overflow-hidden relative flex flex-col justify-end p-3 md:p-4 lg:p-5 group cursor-pointer border border-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform md:hover:-translate-y-2 transition duration-300">
+                        <div class="min-w-[100%] md:min-w-0 h-24 sm:h-auto card-bg-2 rounded-sm overflow-hidden relative flex flex-col justify-end p-3 md:p-4 lg:p-5 group cursor-pointer border border-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform md:hover:-translate-y-2 transition duration-300">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent group-hover:via-black/60 transition duration-300"></div>
                             <div class="card-content">
                                 <h3 class="font-title text-base sm:text-lg md:text-xl lg:text-2xl font-bold uppercase mb-0.5 md:mb-1 lg:mb-2 text-white">STRUKTUR</h3>
@@ -798,7 +734,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="min-w-[100%] md:min-w-0 h-28 sm:h-auto card-bg-3 rounded-sm overflow-hidden relative flex flex-col justify-end p-3 md:p-4 lg:p-5 group cursor-pointer border border-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform md:hover:-translate-y-2 transition duration-300">
+                        <div class="min-w-[100%] md:min-w-0 h-24 sm:h-auto card-bg-3 rounded-sm overflow-hidden relative flex flex-col justify-end p-3 md:p-4 lg:p-5 group cursor-pointer border border-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform md:hover:-translate-y-2 transition duration-300">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-transparent to-transparent z-[1]"></div>
                             <div class="card-content">
                                 <h3 class="font-title text-base sm:text-lg md:text-xl lg:text-2xl font-bold uppercase mb-0.5 md:mb-1 lg:mb-2 text-white drop-shadow-md">LAPORAN</h3>
@@ -812,14 +748,11 @@
                 </div>
             </div>
 
-            <!-- Dashed Navigation -->
+            <!-- Dashed Navigation (3 Indikator menyesuaikan jumlah slide/kartu) -->
             <div class="absolute bottom-4 md:bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2 md:gap-3 z-30 justify-center items-center">
                 <button onclick="setPage4Slide(0)" class="page4-dash w-6 sm:w-8 md:w-10 h-1 rounded-full bg-white transition-all duration-300 focus:outline-none"></button>
                 <button onclick="setPage4Slide(1)" class="page4-dash w-6 sm:w-8 md:w-10 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
                 <button onclick="setPage4Slide(2)" class="page4-dash w-6 sm:w-8 md:w-10 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
-                <button onclick="setPage4Slide(3)" class="page4-dash w-6 sm:w-8 md:w-10 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
-                <button onclick="setPage4Slide(4)" class="page4-dash w-4 sm:w-6 md:w-8 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
-                <button onclick="setPage4Slide(5)" class="page4-dash w-3 sm:w-4 md:w-6 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
             </div>
         </section>
     </main>
@@ -930,8 +863,7 @@
                 });
                 return;
             }
-            page4Slider.style.transform = 'translateX(calc(-' + page4ActiveIndex * 100 + '% - ' + page4ActiveIndex *
-                12 + 'px))';
+            page4Slider.style.transform = 'translateX(calc(-' + page4ActiveIndex * 100 + '% - ' + page4ActiveIndex * 12 + 'px))';
             page4Dashes.forEach(function(dash, index) {
                 if (index === page4ActiveIndex) {
                     dash.classList.remove('bg-white/30');
