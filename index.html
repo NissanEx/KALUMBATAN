@@ -308,16 +308,19 @@
                 font-size: 0.7rem;
             }
 
-            /* Halaman 4 – Function */
+            /* ===== PERBAIKAN Halaman 4 – Function ===== */
             #function {
                 min-height: 100vh;
                 min-height: 100svh;
                 height: auto;
-                padding: 4rem 1.25rem 2rem;
+                padding: 3.5rem 1.25rem 2rem;
+                /* kurangi padding agar muat */
             }
             #function .container {
                 padding: 0;
-                gap: 1.5rem;
+                gap: 1.25rem;
+                height: 100%;
+                /* memastikan container mengisi penuh */
             }
             #function .w-\[45\%\] {
                 width: 100%;
@@ -343,6 +346,10 @@
             }
             #function .card-content p {
                 font-size: 0.55rem;
+            }
+            /* Pastikan bagian atas dan bawah tidak overflow */
+            #function .absolute.bottom-6 {
+                bottom: 0.5rem;
             }
         }
 
@@ -397,7 +404,7 @@
                 width: 90%;
             }
             #function {
-                padding: 3rem 1rem 1.5rem;
+                padding: 2.5rem 1rem 1.5rem;
             }
             #function .font-title {
                 font-size: 2rem;
@@ -445,6 +452,69 @@
             background-image: url('img/kampohtoe.JPG');
             background-size: cover;
             background-position: center;
+        }
+
+        /* ===== PERBAIKAN DESKTOP – Function full height ===== */
+        @media (min-width: 769px) {
+            #function {
+                height: 100vh;
+                min-height: 100vh;
+                max-height: 100vh;
+                overflow: hidden;
+                padding: 0;
+            }
+            #function .container {
+                height: 100%;
+                padding: 2rem 2rem;
+                gap: 2rem;
+            }
+            #function .w-\[45\%\] {
+                width: 45%;
+            }
+            #function .w-\[55\%\] {
+                width: 55%;
+            }
+            #function .card-bg-1,
+            #function .card-bg-2,
+            #function .card-bg-3 {
+                height: 40vh;
+                min-height: 200px;
+            }
+            #function .absolute.bottom-6 {
+                bottom: 1.5rem;
+            }
+            #function .font-title {
+                font-size: 4rem;
+            }
+            #function ul {
+                font-size: 0.75rem;
+            }
+            #function .card-content h3 {
+                font-size: 1.5rem;
+            }
+            #function .card-content p {
+                font-size: 0.65rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            #function .font-title {
+                font-size: 5rem;
+            }
+            #function .card-bg-1,
+            #function .card-bg-2,
+            #function .card-bg-3 {
+                height: 45vh;
+            }
+        }
+        @media (min-width: 1280px) {
+            #function .font-title {
+                font-size: 6rem;
+            }
+            #function .card-bg-1,
+            #function .card-bg-2,
+            #function .card-bg-3 {
+                height: 50vh;
+            }
         }
     </style>
 </head>
@@ -634,7 +704,7 @@
         </section>
 
         <!-- ========================================== -->
-        <!-- HALAMAN 4: FUNCTION -->
+        <!-- HALAMAN 4: FUNCTION – FULL LAYAR -->
         <!-- ========================================== -->
         <section id="function" class="min-h-screen md:h-screen w-full snap-start relative flex flex-col justify-center bg-function bg-cover bg-center overflow-hidden py-16 md:py-0">
             <div class="absolute inset-0 bg-black/90 z-0"></div>
@@ -653,15 +723,16 @@
                 </nav>
             </header>
 
-            <div class="container mx-auto px-6 md:px-8 lg:px-20 relative z-10 flex flex-col md:flex-row gap-8 md:gap-10 lg:gap-16 w-full pt-4 md:pt-0 pb-16 md:pb-0">
-                <div class="w-full md:w-[45%] flex flex-col justify-center order-1 md:order-1 mt-6 md:mt-0">
-                    <div class="mb-4 md:mb-8 lg:mb-10 text-center md:text-left">
+            <div class="container mx-auto px-6 md:px-8 lg:px-20 relative z-10 flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-12 w-full h-full items-center">
+                <!-- Left column -->
+                <div class="w-full md:w-[45%] flex flex-col justify-center order-1 md:order-1 mt-0">
+                    <div class="mb-4 md:mb-6 text-center md:text-left">
                         <h2 class="font-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-widest uppercase leading-tight text-white drop-shadow-md">FUNCTION</h2>
                     </div>
                     <div>
                         <h3 class="font-bold text-xs md:text-sm lg:text-base mb-1 tracking-wide text-white text-center md:text-left">APBN (APBDes - Anggaran Pendapatan dan Belanja Desa)</h3>
-                        <h4 class="font-semibold text-[10px] md:text-xs lg:text-sm mb-4 text-gray-400 tracking-wide text-center md:text-left">Pengelolaan Anggaran Desa</h4>
-                        <ul class="list-disc pl-5 space-y-1.5 md:space-y-2.5 text-[11px] md:text-xs lg:text-[13px] text-gray-300 mb-6 md:mb-8 leading-relaxed tracking-wide text-left">
+                        <h4 class="font-semibold text-[10px] md:text-xs lg:text-sm mb-3 md:mb-4 text-gray-400 tracking-wide text-center md:text-left">Pengelolaan Anggaran Desa</h4>
+                        <ul class="list-disc pl-5 space-y-1 md:space-y-1.5 text-[10px] md:text-xs lg:text-sm text-gray-300 mb-4 md:mb-6 leading-relaxed tracking-wide text-left">
                             <li>Penyusunan dan perencanaan APBDes online</li>
                             <li>Publikasi infografis APBDes interaktif</li>
                             <li>Alokasi anggaran per sektor/program</li>
@@ -670,12 +741,14 @@
                             <li class="hidden sm:list-item">Monitoring pengeluaran anggaran real-time</li>
                         </ul>
                         <div class="text-center md:text-left">
-                            <a href="#home" class="inline-block border border-gray-500 text-gray-300 px-8 md:px-12 py-2.5 md:py-3 text-xs md:text-sm font-semibold rounded hover:bg-white hover:text-black transition">Masuk</a>
+                            <a href="#home" class="inline-block border border-gray-500 text-gray-300 px-8 md:px-10 py-2 md:py-2.5 text-xs md:text-sm font-semibold rounded hover:bg-white hover:text-black transition">Masuk</a>
                         </div>
                     </div>
                 </div>
-                <div class="w-full md:w-[55%] overflow-hidden relative order-2 md:order-2">
-                    <div id="page4-cards-slider" class="flex md:grid md:grid-cols-3 gap-3 md:gap-4 w-full h-auto sm:h-[25vh] md:h-[45vh] lg:h-[55vh] transition-transform duration-500 ease-out">
+
+                <!-- Right column – cards -->
+                <div class="w-full md:w-[55%] overflow-hidden relative order-2 md:order-2 h-auto">
+                    <div id="page4-cards-slider" class="flex md:grid md:grid-cols-3 gap-3 md:gap-4 w-full h-auto sm:h-[25vh] md:h-[40vh] lg:h-[50vh] transition-transform duration-500 ease-out">
                         <div class="min-w-[100%] md:min-w-0 h-28 sm:h-auto card-bg-1 rounded-sm overflow-hidden relative flex flex-col justify-end p-3 md:p-4 lg:p-5 group cursor-pointer border border-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform md:hover:-translate-y-2 transition duration-300">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent group-hover:via-black/60 transition duration-300"></div>
                             <div class="card-content">
@@ -710,13 +783,14 @@
                 </div>
             </div>
 
-            <div class="absolute bottom-6 md:bottom-10 left-1/2 transform -translate-x-1/2 flex gap-3 z-30 justify-center items-center">
-                <button onclick="setPage4Slide(0)" class="page4-dash w-8 sm:w-12 h-1 rounded-full bg-white transition-all duration-300 focus:outline-none"></button>
-                <button onclick="setPage4Slide(1)" class="page4-dash w-8 sm:w-12 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
-                <button onclick="setPage4Slide(2)" class="page4-dash w-8 sm:w-12 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
-                <button onclick="setPage4Slide(3)" class="page4-dash w-8 sm:w-12 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
-                <button onclick="setPage4Slide(4)" class="page4-dash w-8 sm:w-12 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
-                <button onclick="setPage4Slide(5)" class="page4-dash w-4 sm:w-6 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
+            <!-- Dashed Navigation -->
+            <div class="absolute bottom-4 md:bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2 md:gap-3 z-30 justify-center items-center">
+                <button onclick="setPage4Slide(0)" class="page4-dash w-6 sm:w-8 md:w-10 h-1 rounded-full bg-white transition-all duration-300 focus:outline-none"></button>
+                <button onclick="setPage4Slide(1)" class="page4-dash w-6 sm:w-8 md:w-10 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
+                <button onclick="setPage4Slide(2)" class="page4-dash w-6 sm:w-8 md:w-10 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
+                <button onclick="setPage4Slide(3)" class="page4-dash w-6 sm:w-8 md:w-10 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
+                <button onclick="setPage4Slide(4)" class="page4-dash w-4 sm:w-6 md:w-8 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
+                <button onclick="setPage4Slide(5)" class="page4-dash w-3 sm:w-4 md:w-6 h-1 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300 focus:outline-none"></button>
             </div>
         </section>
     </main>
@@ -819,9 +893,9 @@
                 page4Dashes.forEach(function(dash, index) {
                     if (index === page4ActiveIndex) {
                         dash.classList.remove('bg-white/30');
-                        dash.classList.add('bg-white', 'w-12', 'md:w-16');
+                        dash.classList.add('bg-white', 'w-8', 'md:w-12', 'lg:w-16');
                     } else {
-                        dash.classList.remove('bg-white', 'w-12', 'md:w-16');
+                        dash.classList.remove('bg-white', 'w-8', 'md:w-12', 'lg:w-16');
                         dash.classList.add('bg-white/30');
                     }
                 });
@@ -832,9 +906,9 @@
             page4Dashes.forEach(function(dash, index) {
                 if (index === page4ActiveIndex) {
                     dash.classList.remove('bg-white/30');
-                    dash.classList.add('bg-white', 'w-12');
+                    dash.classList.add('bg-white', 'w-8');
                 } else {
-                    dash.classList.remove('bg-white', 'w-12');
+                    dash.classList.remove('bg-white', 'w-8');
                     dash.classList.add('bg-white/30');
                 }
             });
